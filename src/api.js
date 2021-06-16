@@ -8,8 +8,11 @@
  * @format
  */
 import Http from './http';
-import {FacebookRequestError} from './exceptions';
+import { FacebookRequestError } from './exceptions';
 import CrashReporter from './crash-reporter';
+var promiseRetry = require('promise-retry');
+
+let apiUsage = {};
 
 /**
  * Facebook Ads API
@@ -17,6 +20,9 @@ import CrashReporter from './crash-reporter';
 export default class FacebookAdsApi {
   _debug: boolean;
   _showHeader: boolean;
+  _showRequest: boolean;
+  _showResponse: boolean;
+  _showUsage: boolean;
   accessToken: string;
   locale: string;
   static _defaultApi: FacebookAdsApi;
@@ -30,7 +36,7 @@ export default class FacebookAdsApi {
     return 'https://graph.facebook.com';
   }
 
-  static get GRAPH_VIDEO () {
+  static get GRAPH_VIDEO() {
     return 'https://graph-video.facebook.com';
   }
 
@@ -46,6 +52,9 @@ export default class FacebookAdsApi {
     this.locale = locale;
     this._debug = false;
     this._showHeader = false;
+    this._showRequest = false;
+    this._showResponse = false;
+    this._showUsage = false;
     if (crash_log) {
       CrashReporter.enable();
     }
@@ -71,7 +80,7 @@ export default class FacebookAdsApi {
     return this._defaultApi;
   }
 
-  getAppID() : Promise<*> {
+  getAppID(): Promise<*> {
     let url = [FacebookAdsApi.GRAPH, FacebookAdsApi.VERSION, 'debug_token'].join('/');
     let params = {};
     params['access_token'] = this.accessToken;
@@ -89,6 +98,21 @@ export default class FacebookAdsApi {
 
   setShowHeader(flag: boolean): FacebookAdsApi {
     this._showHeader = flag;
+    return this;
+  }
+
+  setShowRequest(flag: boolean): FacebookAdsApi {
+    this._showRequest = flag;
+    return this;
+  }
+
+  setShowResponse(flag: boolean): FacebookAdsApi {
+    this._showResponse = flag;
+    return this;
+  }
+
+  setShowUsage(flag: boolean): FacebookAdsApi {
+    this._showUsage = flag;
     return this;
   }
 
@@ -123,22 +147,60 @@ export default class FacebookAdsApi {
       url = path;
     }
     const strUrl: string = (url: any);
-    return Http.request(method, strUrl, data, files, useMultipartFormData, this._showHeader)
-      .then(response => {
+    if (this._showUsage) {
+      console.log(`apiUsage: ${JSON.stringify(apiUsage)}`);
+    }
+    return promiseRetry({ retries: 3, factor: 3 }, (retry, number) => {
+      if (this._showRequest) {
+        console.log(`200 ${method} ${url} ${Object.keys(data).length > 0 ? JSON.stringify(data) : ''}`);
+      }
+
+      return Http.request(method, strUrl, data, files, useMultipartFormData, this._showHeader).catch((err) => {
+        const strErr = err.toString();
+        console.error(`Caught error: ${strErr}`);
+        if (
+          strErr &&
+          (strErr.includes('User request limit reached') ||
+            strErr.includes('An unknown error occurred') ||
+            strErr.includes('Application request limit reached') ||
+            strErr.includes('An unknown error has occurred') ||
+            strErr.includes('unexpected error has occurred') ||
+            strErr.includes('Unsupported post request') ||
+            strErr.includes('Please try again later') ||
+            strErr.includes('StatusCodeError: 5') ||
+            strErr.includes('Unexpected token < in JSON at position 0') ||
+            strErr.includes('Unexpected token S in JSON at position 0') ||
+            strErr.includes('Could not roll back transaction: Something went wrong with the DB connection.') ||
+            strErr.includes('Client network socket disconnected before secure TLS connection was established') ||
+            strErr.includes("Cannot read property 'error_user_msg' of undefined"))
+        ) {
+          console.warn(`FBSDK: Retry request attempt number: ${number}`);
+          retry(err);
+        }
+        throw err;
+      });
+    })
+      .then((response) => {
+        if (response.headers) {
+          if (response.headers['x-business-use-case-usage']) {
+            apiUsage['x-business-use-case-usage'] = response.headers['x-business-use-case-usage'];
+          }
+          if (response.headers['x-app-usage']) {
+            apiUsage['x-app-usage'] = response.headers['x-app-usage'];
+          }
+        }
+
+        if (this._showResponse) {
+          console.log(`Response: ${response ? JSON.stringify(response) : ''}`);
+        }
         if (this._showHeader) {
           response.body['headers'] = response.headers;
           response = response.body;
-        }
-
-        if (this._debug) {
-          console.log(`200 ${method} ${url} ${Object.keys(data).length > 0 ? JSON.stringify(data) : ""}`);
-          console.log(
-            `Response: ${response ? JSON.stringify(response) : ""}`
-          );
+          console.log(`Headers: ${response && response.headers ? JSON.stringify(response.headers) : ''}`);
         }
         return Promise.resolve(response);
       })
-      .catch(response => {
+      .catch((response) => {
         if (this._debug) {
           console.log(
             `${response.statusCode} ${method} ${url}
@@ -159,5 +221,5 @@ export default class FacebookAdsApi {
         return `${encodeURIComponent(key)}=${encodeURIComponent(param)}`;
       })
       .join('&');
-    }
+  }
 }
