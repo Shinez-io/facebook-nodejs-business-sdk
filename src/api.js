@@ -14,6 +14,7 @@ var promiseRetry = require('promise-retry');
 
 let apiUsage = {};
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 /**
  * Facebook Ads API
  */
@@ -23,6 +24,7 @@ export default class FacebookAdsApi {
   _showRequest: boolean;
   _showResponse: boolean;
   _showUsage: boolean;
+  _useRateLimit: boolean;
   accessToken: string;
   locale: string;
   static _defaultApi: FacebookAdsApi;
@@ -44,7 +46,7 @@ export default class FacebookAdsApi {
    * @param {String} accessToken
    * @param {String} [locale]
    */
-  constructor(accessToken: string, locale: string = 'en_US', crash_log: bool = true) {
+  constructor(accessToken: string, locale: string = 'en_US', crash_log: boolean = true) {
     if (!accessToken) {
       throw new Error('Access token required');
     }
@@ -55,6 +57,7 @@ export default class FacebookAdsApi {
     this._showRequest = false;
     this._showResponse = false;
     this._showUsage = false;
+    this._useRateLimit = false;
     if (crash_log) {
       CrashReporter.enable();
     }
@@ -66,7 +69,7 @@ export default class FacebookAdsApi {
    * @param  {String} [locale]
    * @return {FacebookAdsApi}
    */
-  static init(accessToken: string, locale: string = 'en_US', crash_log: bool = true) : FacebookAdsApi {
+  static init(accessToken: string, locale: string = 'en_US', crash_log: boolean = true): FacebookAdsApi {
     const api = new this(accessToken, locale, crash_log);
     this.setDefaultApi(api);
     return api;
@@ -116,6 +119,11 @@ export default class FacebookAdsApi {
     return this;
   }
 
+  setUseRateLimit(flag: boolean): FacebookAdsApi {
+    this._useRateLimit = flag;
+    return this;
+  }
+
   /**
    * Http Request
    * @param  {String} method
@@ -130,7 +138,7 @@ export default class FacebookAdsApi {
     params: Object = {},
     files: Object = {},
     useMultipartFormData: boolean = false,
-    urlOverride: string = '',
+    urlOverride: string = ''
   ): Promise<*> {
     let url: any;
     let data: Object = {};
@@ -157,8 +165,13 @@ export default class FacebookAdsApi {
 
       return Http.request(method, strUrl, data, files, useMultipartFormData, this._showHeader).catch((err) => {
         const strErr = err.toString();
-        console.error(`Caught error: ${strErr} Headers: ${JSON.stringify(err.response.headers)}`);
+        console.error(
+          `Caught error: ${strErr} Request: ${method} ${url} ${
+            Object.keys(data).length > 0 ? JSON.stringify(data) : ''
+          } Headers: ${JSON.stringify(err.response.headers)} `
+        );
         if (err.response.headers['x-app-usage']) {
+          //see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
           apiUsage['x-app-usage'] = err.response.headers['x-app-usage'];
         }
         if (
@@ -177,6 +190,20 @@ export default class FacebookAdsApi {
             strErr.includes('Client network socket disconnected before secure TLS connection was established') ||
             strErr.includes("Cannot read property 'error_user_msg' of undefined"))
         ) {
+          if (err.response.headers['x-app-usage']) {
+            //see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
+            const usage = JSON.parse(apiUsage['x-app-usage']);
+            if (usage.total_time > 100) {
+              if (this._useRateLimit) {
+                const percent_used_above = usage.total_time - 100;
+                const max_minutes_to_wait = Math.min(60, (60 * percent_used_above) / 100);
+                console.error(
+                  `We have used ${percent_used_above} % of hour limit. Wait ${max_minutes_to_wait} minutes before call again!`
+                );
+                return sleep(max_minutes_to_wait * 60 * 1000).then(() => retry(err));
+              }
+            }
+          }
           console.warn(`FBSDK: Retry request attempt number: ${number}`);
           retry(err);
         }
@@ -207,7 +234,7 @@ export default class FacebookAdsApi {
         if (this._debug) {
           console.log(
             `${response.statusCode} ${method} ${url}
-            ${Object.keys(data).length > 0 ? JSON.stringify(data) : ''}`,
+            ${Object.keys(data).length > 0 ? JSON.stringify(data) : ''}`
           );
         }
         throw new FacebookRequestError(response, method, url, data);
@@ -216,7 +243,7 @@ export default class FacebookAdsApi {
 
   static _encodeParams(params: Object) {
     return Object.keys(params)
-      .map(key => {
+      .map((key) => {
         var param = params[key];
         if (typeof param === 'object') {
           param = param ? JSON.stringify(param) : '';
