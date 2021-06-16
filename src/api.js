@@ -157,7 +157,10 @@ export default class FacebookAdsApi {
 
       return Http.request(method, strUrl, data, files, useMultipartFormData, this._showHeader).catch((err) => {
         const strErr = err.toString();
-        console.error(`Caught error: ${strErr}`);
+        console.error(`Caught error: ${strErr} Headers: ${JSON.stringify(err.response.headers)}`);
+        if (err.response.headers['x-app-usage']) {
+          apiUsage['x-app-usage'] = err.response.headers['x-app-usage'];
+        }
         if (
           strErr &&
           (strErr.includes('User request limit reached') ||
