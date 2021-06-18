@@ -28,17 +28,17 @@ export default class FacebookAdsApi {
   accessToken: string;
   locale: string;
   static _defaultApi: FacebookAdsApi;
-  static get VERSION() {
+  static get VERSION () {
     return 'v11.0';
   }
-  static get SDK_VERSION() {
+  static get SDK_VERSION () {
     return '11.0.0';
   }
-  static get GRAPH() {
+  static get GRAPH () {
     return 'https://graph.facebook.com';
   }
 
-  static get GRAPH_VIDEO() {
+  static get GRAPH_VIDEO () {
     return 'https://graph-video.facebook.com';
   }
 
@@ -46,7 +46,7 @@ export default class FacebookAdsApi {
    * @param {String} accessToken
    * @param {String} [locale]
    */
-  constructor(accessToken: string, locale: string = 'en_US', crash_log: boolean = true) {
+  constructor (accessToken: string, locale: string = 'en_US', crash_log: boolean = true) {
     if (!accessToken) {
       throw new Error('Access token required');
     }
@@ -69,21 +69,21 @@ export default class FacebookAdsApi {
    * @param  {String} [locale]
    * @return {FacebookAdsApi}
    */
-  static init(accessToken: string, locale: string = 'en_US', crash_log: boolean = true): FacebookAdsApi {
+  static init (accessToken: string, locale: string = 'en_US', crash_log: boolean = true): FacebookAdsApi {
     const api = new this(accessToken, locale, crash_log);
     this.setDefaultApi(api);
     return api;
   }
 
-  static setDefaultApi(api: FacebookAdsApi) {
+  static setDefaultApi (api: FacebookAdsApi) {
     this._defaultApi = api;
   }
 
-  static getDefaultApi() {
+  static getDefaultApi () {
     return this._defaultApi;
   }
 
-  getAppID(): Promise<*> {
+  getAppID (): Promise<*> {
     let url = [FacebookAdsApi.GRAPH, FacebookAdsApi.VERSION, 'debug_token'].join('/');
     let params = {};
     params['access_token'] = this.accessToken;
@@ -94,32 +94,32 @@ export default class FacebookAdsApi {
     return Http.request('GET', url, {}, {}, false);
   }
 
-  setDebug(flag: boolean): FacebookAdsApi {
+  setDebug (flag: boolean): FacebookAdsApi {
     this._debug = flag;
     return this;
   }
 
-  setShowHeader(flag: boolean): FacebookAdsApi {
+  setShowHeader (flag: boolean): FacebookAdsApi {
     this._showHeader = flag;
     return this;
   }
 
-  setShowRequest(flag: boolean): FacebookAdsApi {
+  setShowRequest (flag: boolean): FacebookAdsApi {
     this._showRequest = flag;
     return this;
   }
 
-  setShowResponse(flag: boolean): FacebookAdsApi {
+  setShowResponse (flag: boolean): FacebookAdsApi {
     this._showResponse = flag;
     return this;
   }
 
-  setShowUsage(flag: boolean): FacebookAdsApi {
+  setShowUsage (flag: boolean): FacebookAdsApi {
     this._showUsage = flag;
     return this;
   }
 
-  setUseRateLimit(flag: boolean): FacebookAdsApi {
+  setUseRateLimit (flag: boolean): FacebookAdsApi {
     this._useRateLimit = flag;
     return this;
   }
@@ -132,7 +132,7 @@ export default class FacebookAdsApi {
    * @param  {Object} [files]
    * @return {Promise}
    */
-  call(
+  call (
     method: string,
     path: string | Array<string> | String,
     params: Object = {},
@@ -171,14 +171,14 @@ export default class FacebookAdsApi {
           } Headers: ${JSON.stringify(err.response.headers)} `
         );
         if (err.response.headers['x-app-usage']) {
-          //see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
+          // see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
           apiUsage['x-app-usage'] = err.response.headers['x-app-usage'];
         }
         if (
           strErr &&
           (strErr.includes('User request limit reached') ||
             strErr.includes('An unknown error occurred') ||
-            strErr.includes('Application request limit reached') ||
+            (strErr.includes('Application request limit reached') && this._useRateLimit) ||
             strErr.includes('An unknown error has occurred') ||
             strErr.includes('unexpected error has occurred') ||
             strErr.includes('Unsupported post request') ||
@@ -191,7 +191,7 @@ export default class FacebookAdsApi {
             strErr.includes("Cannot read property 'error_user_msg' of undefined"))
         ) {
           if (err.response.headers['x-app-usage']) {
-            //see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
+            // see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
             const usage = JSON.parse(apiUsage['x-app-usage']);
             if (usage.total_time > 100) {
               if (this._useRateLimit) {
@@ -241,7 +241,7 @@ export default class FacebookAdsApi {
       });
   }
 
-  static _encodeParams(params: Object) {
+  static _encodeParams (params: Object) {
     return Object.keys(params)
       .map((key) => {
         var param = params[key];
