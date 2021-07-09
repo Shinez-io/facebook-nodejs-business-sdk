@@ -193,15 +193,14 @@ export default class FacebookAdsApi {
           if (err.response.headers['x-app-usage']) {
             // see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
             const usage = JSON.parse(apiUsage['x-app-usage']);
-            if (usage.total_time > 100) {
-              if (this._useRateLimit) {
-                const percent_used_above = usage.total_time - 100;
-                const max_minutes_to_wait = Math.min(60, (60 * percent_used_above) / 100);
-                console.error(
-                  `We have used ${percent_used_above} % of hour limit. Wait ${max_minutes_to_wait} minutes before call again!`
-                );
-                return sleep(max_minutes_to_wait * 60 * 1000).then(() => retry(err));
-              }
+            if (this._useRateLimit) {
+              const hour_percent_total = usage.total_time;
+              // wait for 10% of the hour (6 minutes if we used 100%(total_time=100)
+              const max_minutes_to_wait = Math.min(60, (60 * hour_percent_total) / 100 / 10);
+              console.error(
+                `We have used ${hour_percent_total} % of hour limit. Wait ${max_minutes_to_wait} minutes before call again!`
+              );
+              return sleep(max_minutes_to_wait * 60 * 1000).then(() => retry(err));
             }
           }
           console.warn(`FBSDK: Retry request attempt number: ${number}`);

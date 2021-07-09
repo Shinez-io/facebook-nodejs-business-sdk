@@ -1,6 +1,6 @@
 {
   "name": "@shinez-io/facebook-nodejs-business-sdk",
-  "version": "11.0.4",
+  "version": "11.0.6",
   "description": "SDK for the Facebook Ads API in Javascript and Node.js",
   "author": "Olexiy Buyanskyy <olexiyb@gmail.com>",
   "maintainers": [
