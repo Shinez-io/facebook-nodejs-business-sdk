@@ -78,7 +78,8 @@
     "publish": "npm run prepublish && npm publish",
     "prepublish": "gulp dist",
     "start": "semistandard --fix",
-    "flow": "flow"
+    "flow": "flow",
+    "test": "jest"
   },
   "main": "./dist/cjs.js",
   "types": "./dist/index.d.ts",
