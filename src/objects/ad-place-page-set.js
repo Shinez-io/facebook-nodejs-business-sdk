@@ -25,12 +25,6 @@ export default class AdPlacePageSet extends AbstractCrudObject {
     });
   }
 
-  static get Category (): Object {
-    return Object.freeze({
-      bopus: 'BOPUS',
-      general: 'GENERAL',
-    });
-  }
   static get LocationTypes (): Object {
     return Object.freeze({
       home: 'home',

@@ -15,6 +15,7 @@ import CommerceOrderTransactionDetail from './commerce-order-transaction-detail'
 import Application from './application';
 import ProductCatalog from './product-catalog';
 import CommerceMerchantSettingsSetupStatus from './commerce-merchant-settings-setup-status';
+import Shop from './shop';
 
 /**
  * CommerceMerchantSettings
@@ -45,7 +46,6 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
       privacy_url_by_locale: 'privacy_url_by_locale',
       review_rejection_messages: 'review_rejection_messages',
       review_rejection_reasons: 'review_rejection_reasons',
-      review_status: 'review_status',
       supported_card_types: 'supported_card_types',
       terms: 'terms',
       terms_url_by_locale: 'terms_url_by_locale',
@@ -54,12 +54,13 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
   }
 
 
-  createAcknowledgeOrder (fields: Array<string>, params: Object = {}): Promise<CommerceMerchantSettings> {
+  createAcknowledgeOrder (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceMerchantSettings> {
     return this.createEdge(
       '/acknowledge_orders',
       fields,
       params,
-      CommerceMerchantSettings
+      CommerceMerchantSettings,
+      pathOverride,
     );
   }
 
@@ -103,12 +104,13 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
     );
   }
 
-  createOrderManagementApp (fields: Array<string>, params: Object = {}): Promise<CommerceMerchantSettings> {
+  createOrderManagementApp (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceMerchantSettings> {
     return this.createEdge(
       '/order_management_apps',
       fields,
       params,
-      CommerceMerchantSettings
+      CommerceMerchantSettings,
+      pathOverride,
     );
   }
 
@@ -152,12 +154,23 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
     );
   }
 
-  createShippingProfile (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createShippingProfile (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/shipping_profiles',
       fields,
       params,
-      
+      null,
+      pathOverride,
+    );
+  }
+
+  getShops (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      Shop,
+      fields,
+      params,
+      fetchFirstPage,
+      '/shops'
     );
   }
 
@@ -171,12 +184,13 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
     );
   }
 
-  createWhatsappChannel (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createWhatsappChannel (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/whatsapp_channel',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 

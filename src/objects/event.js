@@ -10,7 +10,6 @@ import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
 import NullNode from './null-node';
-import LiveVideo from './live-video';
 import Profile from './profile';
 
 /**
@@ -25,6 +24,7 @@ export default class Event extends AbstractCrudObject {
       can_guests_invite: 'can_guests_invite',
       category: 'category',
       cover: 'cover',
+      created_time: 'created_time',
       declined_count: 'declined_count',
       description: 'description',
       discount_code_enabled: 'discount_code_enabled',
@@ -47,6 +47,7 @@ export default class Event extends AbstractCrudObject {
       place: 'place',
       scheduled_publish_time: 'scheduled_publish_time',
       start_time: 'start_time',
+      ticket_setting: 'ticket_setting',
       ticket_uri: 'ticket_uri',
       ticket_uri_start_sales_time: 'ticket_uri_start_sales_time',
       ticketing_privacy_uri: 'ticketing_privacy_uri',
@@ -102,6 +103,7 @@ export default class Event extends AbstractCrudObject {
       group: 'group',
       private: 'private',
       public: 'public',
+      work_company: 'work_company',
     });
   }
   static get EventStateFilter (): Object {
@@ -149,12 +151,13 @@ export default class Event extends AbstractCrudObject {
     );
   }
 
-  createLiveVideo (fields: Array<string>, params: Object = {}): Promise<LiveVideo> {
+  createLiveVideo (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
-      '/live_videos',
+      '/livevideos',
       fields,
       params,
-      LiveVideo
+      null,
+      pathOverride,
     );
   }
 

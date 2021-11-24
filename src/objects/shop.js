@@ -9,18 +9,26 @@
 import {AbstractCrudObject} from './../abstract-crud-object';
 
 /**
- * AdAccountContentFilterLevelsInheritance
+ * Shop
  * @extends AbstractCrudObject
  * @see {@link https://developers.facebook.com/docs/marketing-api/}
  */
-export default class AdAccountContentFilterLevelsInheritance extends AbstractCrudObject {
+export default class Shop extends AbstractCrudObject {
   static get Fields (): Object {
     return Object.freeze({
-      an_business_ids: 'an_business_ids',
-      an_level: 'an_level',
-      facebook_business_ids: 'facebook_business_ids',
-      facebook_level: 'facebook_level',
+      fb_sales_channel: 'fb_sales_channel',
+      id: 'id',
+      ig_sales_channel: 'ig_sales_channel',
     });
   }
 
+
+  
+  get (fields: Array<string>, params: Object = {}): Shop {
+    // $FlowFixMe : Support Generic Types
+    return this.read(
+      fields,
+      params
+    );
+  }
 }

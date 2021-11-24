@@ -159,6 +159,7 @@ export default class Campaign extends AbstractCrudObject {
       housing: 'HOUSING',
       issues_elections_politics: 'ISSUES_ELECTIONS_POLITICS',
       none: 'NONE',
+      online_gambling_and_gaming: 'ONLINE_GAMBLING_AND_GAMING',
     });
   }
   static get SpecialAdCategoryCountry (): Object {
@@ -429,6 +430,7 @@ export default class Campaign extends AbstractCrudObject {
       housing: 'HOUSING',
       issues_elections_politics: 'ISSUES_ELECTIONS_POLITICS',
       none: 'NONE',
+      online_gambling_and_gaming: 'ONLINE_GAMBLING_AND_GAMING',
     });
   }
   static get StatusOption (): Object {
@@ -449,12 +451,13 @@ export default class Campaign extends AbstractCrudObject {
     );
   }
 
-  createAdLabel (fields: Array<string>, params: Object = {}): Promise<Campaign> {
+  createAdLabel (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Campaign> {
     return this.createEdge(
       '/adlabels',
       fields,
       params,
-      Campaign
+      Campaign,
+      pathOverride,
     );
   }
 
@@ -508,12 +511,13 @@ export default class Campaign extends AbstractCrudObject {
     );
   }
 
-  createCopy (fields: Array<string>, params: Object = {}): Promise<Campaign> {
+  createCopy (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Campaign> {
     return this.createEdge(
       '/copies',
       fields,
       params,
-      Campaign
+      Campaign,
+      pathOverride,
     );
   }
 
@@ -527,12 +531,13 @@ export default class Campaign extends AbstractCrudObject {
     );
   }
 
-  getInsightsAsync (fields: Array<string>, params: Object = {}): Promise<AdReportRun> {
+  getInsightsAsync (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdReportRun> {
     return this.createEdge(
       '/insights',
       fields,
       params,
-      AdReportRun
+      AdReportRun,
+      pathOverride,
     );
   }
 

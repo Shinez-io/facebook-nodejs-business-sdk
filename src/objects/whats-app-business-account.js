@@ -10,6 +10,7 @@ import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
 import AssignedUser from './assigned-user';
+import ProductCatalog from './product-catalog';
 
 /**
  * WhatsAppBusinessAccount
@@ -78,12 +79,13 @@ export default class WhatsAppBusinessAccount extends AbstractCrudObject {
     );
   }
 
-  createAssignedUser (fields: Array<string>, params: Object = {}): Promise<WhatsAppBusinessAccount> {
+  createAssignedUser (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<WhatsAppBusinessAccount> {
     return this.createEdge(
       '/assigned_users',
       fields,
       params,
-      WhatsAppBusinessAccount
+      WhatsAppBusinessAccount,
+      pathOverride,
     );
   }
 
@@ -104,12 +106,13 @@ export default class WhatsAppBusinessAccount extends AbstractCrudObject {
     );
   }
 
-  createMessageTemplate (fields: Array<string>, params: Object = {}): Promise<WhatsAppBusinessAccount> {
+  createMessageTemplate (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<WhatsAppBusinessAccount> {
     return this.createEdge(
       '/message_templates',
       fields,
       params,
-      WhatsAppBusinessAccount
+      WhatsAppBusinessAccount,
+      pathOverride,
     );
   }
 
@@ -120,6 +123,43 @@ export default class WhatsAppBusinessAccount extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/phone_numbers'
+    );
+  }
+
+  createPhoneNumber (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/phone_numbers',
+      fields,
+      params,
+      null,
+      pathOverride,
+    );
+  }
+
+  deleteProductCatalogs (params: Object = {}): Promise<*> {
+    return super.deleteEdge(
+      '/product_catalogs',
+      params
+    );
+  }
+
+  getProductCatalogs (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      ProductCatalog,
+      fields,
+      params,
+      fetchFirstPage,
+      '/product_catalogs'
+    );
+  }
+
+  createProductCatalog (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductCatalog> {
+    return this.createEdge(
+      '/product_catalogs',
+      fields,
+      params,
+      ProductCatalog,
+      pathOverride,
     );
   }
 
@@ -140,12 +180,13 @@ export default class WhatsAppBusinessAccount extends AbstractCrudObject {
     );
   }
 
-  createSubscribedApp (fields: Array<string>, params: Object = {}): Promise<WhatsAppBusinessAccount> {
+  createSubscribedApp (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<WhatsAppBusinessAccount> {
     return this.createEdge(
       '/subscribed_apps',
       fields,
       params,
-      WhatsAppBusinessAccount
+      WhatsAppBusinessAccount,
+      pathOverride,
     );
   }
 

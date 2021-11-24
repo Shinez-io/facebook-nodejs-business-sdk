@@ -79,8 +79,11 @@ export default class AdsPixel extends AbstractCrudObject {
   }
   static get Tasks (): Object {
     return Object.freeze({
+      aa_analyze: 'AA_ANALYZE',
+      advertise: 'ADVERTISE',
       analyze: 'ANALYZE',
       edit: 'EDIT',
+      upload: 'UPLOAD',
     });
   }
 
@@ -94,12 +97,13 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
-  createAssignedUser (fields: Array<string>, params: Object = {}): Promise<AdsPixel> {
+  createAssignedUser (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsPixel> {
     return this.createEdge(
       '/assigned_users',
       fields,
       params,
-      AdsPixel
+      AdsPixel,
+      pathOverride,
     );
   }
 
@@ -113,21 +117,23 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
-  createEvent (fields: Array<string>, params: Object = {}): Promise<AdsPixel> {
+  createEvent (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsPixel> {
     return this.createEdge(
       '/events',
       fields,
       params,
-      AdsPixel
+      AdsPixel,
+      pathOverride,
     );
   }
 
-  createShadowTrafficHelper (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createShadowTrafficHelper (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/shadowtraffichelper',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
@@ -148,12 +154,13 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
-  createSharedAccount (fields: Array<string>, params: Object = {}): Promise<AdsPixel> {
+  createSharedAccount (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsPixel> {
     return this.createEdge(
       '/shared_accounts',
       fields,
       params,
-      AdsPixel
+      AdsPixel,
+      pathOverride,
     );
   }
 
@@ -174,6 +181,16 @@ export default class AdsPixel extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/stats'
+    );
+  }
+
+  createTelemetry (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/telemetry',
+      fields,
+      params,
+      null,
+      pathOverride,
     );
   }
 

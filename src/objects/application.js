@@ -9,6 +9,7 @@
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
+import AdPlacement from './ad-placement';
 import AdNetworkAnalyticsSyncQueryResult from './ad-network-analytics-sync-query-result';
 import AdNetworkAnalyticsAsyncQueryResult from './ad-network-analytics-async-query-result';
 import Business from './business';
@@ -144,17 +145,20 @@ export default class Application extends AbstractCrudObject {
       supplementary_images: 'SUPPLEMENTARY_IMAGES',
       web: 'WEB',
       windows: 'WINDOWS',
+      xiaomi: 'XIAOMI',
     });
   }
   static get AnPlatforms (): Object {
     return Object.freeze({
       android: 'ANDROID',
       desktop: 'DESKTOP',
+      galaxy: 'GALAXY',
       instant_articles: 'INSTANT_ARTICLES',
       ios: 'IOS',
       mobile_web: 'MOBILE_WEB',
       oculus: 'OCULUS',
       unknown: 'UNKNOWN',
+      xiaomi: 'XIAOMI',
     });
   }
   static get Platform (): Object {
@@ -226,21 +230,33 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createAccount (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createAccount (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/accounts',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
-  createActivity (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createActivity (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/activities',
       fields,
       params,
-      
+      null,
+      pathOverride,
+    );
+  }
+
+  getAdNetworkPlacements (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AdPlacement,
+      fields,
+      params,
+      fetchFirstPage,
+      '/adnetwork_placements'
     );
   }
 
@@ -254,12 +270,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createAdNetworkAnalytic (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createAdNetworkAnalytic (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/adnetworkanalytics',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
@@ -283,12 +300,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createAemConversion (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createAemConversion (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/aem_conversions',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
@@ -302,12 +320,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createAggregateRevenue (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createAggregateRevenue (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/aggregate_revenue',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
@@ -321,31 +340,23 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createAppIndexing (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createAppIndexing (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/app_indexing',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
-  createAppIndexingSession (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createAppIndexingSession (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/app_indexing_session',
       fields,
       params,
-      Application
-    );
-  }
-
-  getAppInsights (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      AbstractObject,
-      fields,
-      params,
-      fetchFirstPage,
-      '/app_insights'
+      Application,
+      pathOverride,
     );
   }
 
@@ -359,12 +370,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createAppPushDeviceToken (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createAppPushDeviceToken (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/app_push_device_token',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
@@ -378,12 +390,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createAsset (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createAsset (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/assets',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
@@ -414,21 +427,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createButtonIndexing (fields: Array<string>, params: Object = {}): Promise<Application> {
-    return this.createEdge(
-      '/button_indexing',
-      fields,
-      params,
-      Application
-    );
-  }
-
-  createCodelessEventMapping (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createCodelessEventMapping (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/codeless_event_mappings',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
@@ -462,12 +467,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createInsightsPushSchedule (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createInsightsPushSchedule (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/insights_push_schedule',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
@@ -481,48 +487,43 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createLeaderboardsCreate (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createLeaderboardsCreate (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/leaderboards_create',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
-  createLeaderboardsDeleteEntry (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createLeaderboardsDeleteEntry (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/leaderboards_delete_entry',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
-  createLeaderboardsReset (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createLeaderboardsReset (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/leaderboards_reset',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
-  createLeaderboardsSetScore (fields: Array<string>, params: Object = {}): Promise<Application> {
-    return this.createEdge(
-      '/leaderboards_set_score',
-      fields,
-      params,
-      Application
-    );
-  }
-
-  createMmpAuditing (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createMmpAuditing (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/mmp_auditing',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
@@ -536,37 +537,33 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createOccludesPopup (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createOccludesPopup (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/occludespopups',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
-  createPageActivity (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createPageActivity (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/page_activities',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
-  deletePaymentCurrencies (params: Object = {}): Promise<*> {
-    return super.deleteEdge(
-      '/payment_currencies',
-      params
-    );
-  }
-
-  createPaymentCurrency (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createPaymentCurrency (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/payment_currencies',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
@@ -600,12 +597,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createPushTokenRegister (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createPushTokenRegister (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/push_token_register',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
@@ -619,12 +617,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createSendNotification (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createSendNotification (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/send_notification',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
@@ -638,12 +637,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createSubscribedDomain (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createSubscribedDomain (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/subscribed_domains',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
@@ -657,12 +657,13 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createSubscribedDomainsPhishing (fields: Array<string>, params: Object = {}): Promise<Application> {
+  createSubscribedDomainsPhishing (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
     return this.createEdge(
       '/subscribed_domains_phishing',
       fields,
       params,
-      Application
+      Application,
+      pathOverride,
     );
   }
 
@@ -673,30 +674,33 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createSubscription (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createSubscription (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/subscriptions',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
-  createUpload (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createUpload (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/uploads',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 
-  createUserProperty (fields: Array<string>, params: Object = {}): Promise<AbstractObject> {
+  createUserProperty (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/user_properties',
       fields,
       params,
-      
+      null,
+      pathOverride,
     );
   }
 

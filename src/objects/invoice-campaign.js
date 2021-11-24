@@ -22,6 +22,7 @@ export default class InvoiceCampaign extends AbstractCrudObject {
       campaign_name: 'campaign_name',
       clicks: 'clicks',
       conversions: 'conversions',
+      description: 'description',
       impressions: 'impressions',
       tags: 'tags',
     });

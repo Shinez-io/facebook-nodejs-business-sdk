@@ -52,6 +52,7 @@ export default class AdSet extends AbstractCrudObject {
       destination_type: 'destination_type',
       effective_status: 'effective_status',
       end_time: 'end_time',
+      existing_customer_budget_percentage: 'existing_customer_budget_percentage',
       frequency_control_specs: 'frequency_control_specs',
       full_funnel_exploration_mode: 'full_funnel_exploration_mode',
       id: 'id',
@@ -78,6 +79,7 @@ export default class AdSet extends AbstractCrudObject {
       start_time: 'start_time',
       status: 'status',
       targeting: 'targeting',
+      targeting_optimization_types: 'targeting_optimization_types',
       time_based_ad_rotation_id_blocks: 'time_based_ad_rotation_id_blocks',
       time_based_ad_rotation_intervals: 'time_based_ad_rotation_intervals',
       updated_time: 'updated_time',
@@ -129,10 +131,9 @@ export default class AdSet extends AbstractCrudObject {
   static get OptimizationGoal (): Object {
     return Object.freeze({
       ad_recall_lift: 'AD_RECALL_LIFT',
-      app_downloads: 'APP_DOWNLOADS',
       app_installs: 'APP_INSTALLS',
-      brand_awareness: 'BRAND_AWARENESS',
-      clicks: 'CLICKS',
+      app_installs_and_offsite_conversions: 'APP_INSTALLS_AND_OFFSITE_CONVERSIONS',
+      conversations: 'CONVERSATIONS',
       derived_events: 'DERIVED_EVENTS',
       engaged_users: 'ENGAGED_USERS',
       event_responses: 'EVENT_RESPONSES',
@@ -141,18 +142,13 @@ export default class AdSet extends AbstractCrudObject {
       lead_generation: 'LEAD_GENERATION',
       link_clicks: 'LINK_CLICKS',
       none: 'NONE',
-      offer_claims: 'OFFER_CLAIMS',
       offsite_conversions: 'OFFSITE_CONVERSIONS',
-      page_engagement: 'PAGE_ENGAGEMENT',
       page_likes: 'PAGE_LIKES',
       post_engagement: 'POST_ENGAGEMENT',
       quality_call: 'QUALITY_CALL',
       quality_lead: 'QUALITY_LEAD',
       reach: 'REACH',
-      replies: 'REPLIES',
-      social_impressions: 'SOCIAL_IMPRESSIONS',
       thruplay: 'THRUPLAY',
-      two_second_continuous_video_views: 'TWO_SECOND_CONTINUOUS_VIDEO_VIEWS',
       value: 'VALUE',
       visit_instagram_profile: 'VISIT_INSTAGRAM_PROFILE',
     });
@@ -240,6 +236,7 @@ export default class AdSet extends AbstractCrudObject {
       housing: 'HOUSING',
       issues_elections_politics: 'ISSUES_ELECTIONS_POLITICS',
       none: 'NONE',
+      online_gambling_and_gaming: 'ONLINE_GAMBLING_AND_GAMING',
     });
   }
   static get Operator (): Object {
@@ -293,12 +290,13 @@ export default class AdSet extends AbstractCrudObject {
     );
   }
 
-  createAdLabel (fields: Array<string>, params: Object = {}): Promise<AdSet> {
+  createAdLabel (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdSet> {
     return this.createEdge(
       '/adlabels',
       fields,
       params,
-      AdSet
+      AdSet,
+      pathOverride,
     );
   }
 
@@ -352,12 +350,13 @@ export default class AdSet extends AbstractCrudObject {
     );
   }
 
-  createCopy (fields: Array<string>, params: Object = {}): Promise<AdSet> {
+  createCopy (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdSet> {
     return this.createEdge(
       '/copies',
       fields,
       params,
-      AdSet
+      AdSet,
+      pathOverride,
     );
   }
 
@@ -381,12 +380,13 @@ export default class AdSet extends AbstractCrudObject {
     );
   }
 
-  getInsightsAsync (fields: Array<string>, params: Object = {}): Promise<AdReportRun> {
+  getInsightsAsync (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdReportRun> {
     return this.createEdge(
       '/insights',
       fields,
       params,
-      AdReportRun
+      AdReportRun,
+      pathOverride,
     );
   }
 

@@ -9,22 +9,23 @@
 import {AbstractCrudObject} from './../abstract-crud-object';
 
 /**
- * PlayableContent
+ * WoodhengePurchasedPAYGReceipt
  * @extends AbstractCrudObject
  * @see {@link https://developers.facebook.com/docs/marketing-api/}
  */
-export default class PlayableContent extends AbstractCrudObject {
+export default class WoodhengePurchasedPAYGReceipt extends AbstractCrudObject {
   static get Fields (): Object {
     return Object.freeze({
       id: 'id',
-      name: 'name',
-      owner: 'owner',
+      number_of_subscriptions_purchased: 'number_of_subscriptions_purchased',
+      purchase_time: 'purchase_time',
+      user: 'user',
     });
   }
 
 
   
-  get (fields: Array<string>, params: Object = {}): PlayableContent {
+  get (fields: Array<string>, params: Object = {}): WoodhengePurchasedPAYGReceipt {
     // $FlowFixMe : Support Generic Types
     return this.read(
       fields,

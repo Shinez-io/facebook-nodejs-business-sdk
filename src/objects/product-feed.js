@@ -37,14 +37,17 @@ export default class ProductFeed extends AbstractCrudObject {
       encoding: 'encoding',
       file_name: 'file_name',
       id: 'id',
+      ingestion_source_type: 'ingestion_source_type',
       item_sub_type: 'item_sub_type',
       latest_upload: 'latest_upload',
       migrated_from_feed_id: 'migrated_from_feed_id',
       name: 'name',
       override_type: 'override_type',
+      primary_feeds: 'primary_feeds',
       product_count: 'product_count',
       quoted_fields_mode: 'quoted_fields_mode',
       schedule: 'schedule',
+      supplementary_feeds: 'supplementary_feeds',
       update_schedule: 'update_schedule',
     });
   }
@@ -94,6 +97,12 @@ export default class ProductFeed extends AbstractCrudObject {
       transactable_items: 'TRANSACTABLE_ITEMS',
       vehicles: 'VEHICLES',
       vehicle_offer: 'VEHICLE_OFFER',
+    });
+  }
+  static get IngestionSourceType (): Object {
+    return Object.freeze({
+      primary_feed: 'PRIMARY_FEED',
+      supplementary_feed: 'SUPPLEMENTARY_FEED',
     });
   }
   static get ItemSubType (): Object {
@@ -153,16 +162,6 @@ export default class ProductFeed extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/automotive_models'
-    );
-  }
-
-  getAutos (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      AbstractObject,
-      fields,
-      params,
-      fetchFirstPage,
-      '/autos'
     );
   }
 
@@ -236,12 +235,23 @@ export default class ProductFeed extends AbstractCrudObject {
     );
   }
 
-  createRule (fields: Array<string>, params: Object = {}): Promise<ProductFeedRule> {
+  createRule (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductFeedRule> {
     return this.createEdge(
       '/rules',
       fields,
       params,
-      ProductFeedRule
+      ProductFeedRule,
+      pathOverride,
+    );
+  }
+
+  createSupplementaryFeedAssoc (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/supplementary_feed_assocs',
+      fields,
+      params,
+      null,
+      pathOverride,
     );
   }
 
@@ -255,12 +265,13 @@ export default class ProductFeed extends AbstractCrudObject {
     );
   }
 
-  createUploadSchedule (fields: Array<string>, params: Object = {}): Promise<ProductFeed> {
+  createUploadSchedule (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductFeed> {
     return this.createEdge(
       '/upload_schedules',
       fields,
       params,
-      ProductFeed
+      ProductFeed,
+      pathOverride,
     );
   }
 
@@ -274,12 +285,13 @@ export default class ProductFeed extends AbstractCrudObject {
     );
   }
 
-  createUpload (fields: Array<string>, params: Object = {}): Promise<ProductFeedUpload> {
+  createUpload (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductFeedUpload> {
     return this.createEdge(
       '/uploads',
       fields,
       params,
-      ProductFeedUpload
+      ProductFeedUpload,
+      pathOverride,
     );
   }
 

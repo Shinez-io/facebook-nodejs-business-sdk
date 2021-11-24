@@ -17,6 +17,8 @@ export default class AdAccountTargetingUnified extends AbstractCrudObject {
   static get Fields (): Object {
     return Object.freeze({
       audience_size: 'audience_size',
+      audience_size_lower_bound: 'audience_size_lower_bound',
+      audience_size_upper_bound: 'audience_size_upper_bound',
       conversion_lift: 'conversion_lift',
       description: 'description',
       id: 'id',
@@ -78,6 +80,7 @@ export default class AdAccountTargetingUnified extends AbstractCrudObject {
       housing: 'HOUSING',
       issues_elections_politics: 'ISSUES_ELECTIONS_POLITICS',
       none: 'NONE',
+      online_gambling_and_gaming: 'ONLINE_GAMBLING_AND_GAMING',
     });
   }
   static get WhitelistedTypes (): Object {
@@ -208,6 +211,11 @@ export default class AdAccountTargetingUnified extends AbstractCrudObject {
   static get AppStore (): Object {
     return Object.freeze({
       amazon_app_store: 'amazon_app_store',
+      apk_mirror: 'apk_mirror',
+      apk_monk: 'apk_monk',
+      apk_pure: 'apk_pure',
+      aptoide_a1_store: 'aptoide_a1_store',
+      bemobi_mobile_store: 'bemobi_mobile_store',
       does_not_exist: 'does_not_exist',
       fb_android_store: 'fb_android_store',
       fb_canvas: 'fb_canvas',
@@ -218,9 +226,13 @@ export default class AdAccountTargetingUnified extends AbstractCrudObject {
       itunes: 'itunes',
       itunes_ipad: 'itunes_ipad',
       oculus_app_store: 'oculus_app_store',
+      oppo: 'oppo',
       roku_channel_store: 'roku_channel_store',
+      uptodown: 'uptodown',
+      vivo: 'vivo',
       windows_10_store: 'windows_10_store',
       windows_store: 'windows_store',
+      xiaomi: 'xiaomi',
     });
   }
   static get Objective (): Object {

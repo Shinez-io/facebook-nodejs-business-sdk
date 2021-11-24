@@ -18,6 +18,8 @@ export default class AdAccountReachEstimate extends AbstractCrudObject {
     return Object.freeze({
       estimate_ready: 'estimate_ready',
       users: 'users',
+      users_lower_bound: 'users_lower_bound',
+      users_upper_bound: 'users_upper_bound',
     });
   }
 

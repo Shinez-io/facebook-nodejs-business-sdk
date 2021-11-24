@@ -44,6 +44,7 @@ export default class LiveVideo extends AbstractCrudObject {
       overlay_url: 'overlay_url',
       permalink_url: 'permalink_url',
       planned_start_time: 'planned_start_time',
+      recommended_encoder_settings: 'recommended_encoder_settings',
       seconds_left: 'seconds_left',
       secure_stream_url: 'secure_stream_url',
       status: 'status',
@@ -55,11 +56,30 @@ export default class LiveVideo extends AbstractCrudObject {
     });
   }
 
+  static get BroadcastStatus (): Object {
+    return Object.freeze({
+      live: 'LIVE',
+      live_stopped: 'LIVE_STOPPED',
+      processing: 'PROCESSING',
+      scheduled_canceled: 'SCHEDULED_CANCELED',
+      scheduled_expired: 'SCHEDULED_EXPIRED',
+      scheduled_live: 'SCHEDULED_LIVE',
+      scheduled_unpublished: 'SCHEDULED_UNPUBLISHED',
+      unpublished: 'UNPUBLISHED',
+      vod: 'VOD',
+    });
+  }
   static get Projection (): Object {
     return Object.freeze({
       cubemap: 'CUBEMAP',
       equirectangular: 'EQUIRECTANGULAR',
       half_equirectangular: 'HALF_EQUIRECTANGULAR',
+    });
+  }
+  static get Source (): Object {
+    return Object.freeze({
+      owner: 'owner',
+      target: 'target',
     });
   }
   static get SpatialAudioFormat (): Object {
@@ -89,34 +109,18 @@ export default class LiveVideo extends AbstractCrudObject {
       regular: 'REGULAR',
     });
   }
-  static get BroadcastStatus (): Object {
-    return Object.freeze({
-      live: 'LIVE',
-      live_stopped: 'LIVE_STOPPED',
-      processing: 'PROCESSING',
-      scheduled_canceled: 'SCHEDULED_CANCELED',
-      scheduled_expired: 'SCHEDULED_EXPIRED',
-      scheduled_live: 'SCHEDULED_LIVE',
-      scheduled_unpublished: 'SCHEDULED_UNPUBLISHED',
-      unpublished: 'UNPUBLISHED',
-      vod: 'VOD',
-    });
-  }
-  static get Source (): Object {
-    return Object.freeze({
-      owner: 'owner',
-      target: 'target',
-    });
-  }
   static get LiveCommentModerationSetting (): Object {
     return Object.freeze({
       default: 'DEFAULT',
       discussion: 'DISCUSSION',
+      followed: 'FOLLOWED',
       follower: 'FOLLOWER',
+      no_hyperlink: 'NO_HYPERLINK',
       protected_mode: 'PROTECTED_MODE',
       restricted: 'RESTRICTED',
       slow: 'SLOW',
       supporter: 'SUPPORTER',
+      tagged: 'TAGGED',
     });
   }
   static get PersistentStreamKeyStatus (): Object {
@@ -177,12 +181,13 @@ export default class LiveVideo extends AbstractCrudObject {
     );
   }
 
-  createInputStream (fields: Array<string>, params: Object = {}): Promise<LiveVideoInputStream> {
+  createInputStream (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<LiveVideoInputStream> {
     return this.createEdge(
       '/input_streams',
       fields,
       params,
-      LiveVideoInputStream
+      LiveVideoInputStream,
+      pathOverride,
     );
   }
 
@@ -196,12 +201,13 @@ export default class LiveVideo extends AbstractCrudObject {
     );
   }
 
-  createPoll (fields: Array<string>, params: Object = {}): Promise<VideoPoll> {
+  createPoll (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<VideoPoll> {
     return this.createEdge(
       '/polls',
       fields,
       params,
-      VideoPoll
+      VideoPoll,
+      pathOverride,
     );
   }
 
