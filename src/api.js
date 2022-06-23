@@ -176,13 +176,13 @@ export default class FacebookAdsApi {
         }
         if (
           strErr &&
-          (strErr.includes('User request limit reached') ||
+          (/*strErr.includes('User request limit reached') || */
             strErr.includes('An unknown error occurred') ||
             (strErr.includes('Application request limit reached') && this._useRateLimit) ||
             strErr.includes('An unknown error has occurred') ||
             strErr.includes('unexpected error has occurred') ||
             strErr.includes('Unsupported post request') ||
-            strErr.includes('Please try again later') ||
+            /*strErr.includes('Please try again later') || */
             strErr.includes('StatusCodeError: 5') ||
             strErr.includes('Unexpected token < in JSON at position 0') ||
             strErr.includes('Unexpected token S in JSON at position 0') ||
