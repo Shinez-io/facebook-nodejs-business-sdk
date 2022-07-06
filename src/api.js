@@ -25,6 +25,7 @@ export default class FacebookAdsApi {
   _showResponse: boolean;
   _showUsage: boolean;
   _useRateLimit: boolean;
+  _retryNumber: number;
   accessToken: string;
   locale: string;
   static _defaultApi: FacebookAdsApi;
@@ -58,6 +59,7 @@ export default class FacebookAdsApi {
     this._showResponse = false;
     this._showUsage = false;
     this._useRateLimit = false;
+    this._retryNumber = 3;
     if (crash_log) {
       CrashReporter.enable();
     }
@@ -124,6 +126,11 @@ export default class FacebookAdsApi {
     return this;
   }
 
+  setRetryNumber (n: number): FacebookAdsApi {
+    this._retryNumber = n;
+    return this;
+  }
+
   /**
    * Http Request
    * @param  {String} method
@@ -158,7 +165,7 @@ export default class FacebookAdsApi {
     if (this._showUsage) {
       console.log(`apiUsage: ${JSON.stringify(apiUsage)}`);
     }
-    return promiseRetry({ retries: 3, factor: 3 }, (retry, number) => {
+    return promiseRetry({ retries: this._retryNumber, factor: 3 }, (retry, number) => {
       if (this._showRequest) {
         console.log(`200 ${method} ${url} ${Object.keys(data).length > 0 ? JSON.stringify(data) : ''}`);
       }
@@ -203,7 +210,7 @@ export default class FacebookAdsApi {
               return sleep(max_minutes_to_wait * 60 * 1000).then(() => retry(err));
             }
           }
-          console.warn(`FBSDK: Retry request attempt number: ${number}`);
+          console.warn(`FBSDK: Retry request attempt number: ${number} after ${strErr}`);
           retry(err);
         }
         throw err;
