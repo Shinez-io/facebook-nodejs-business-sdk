@@ -243,7 +243,7 @@ export default class FacebookAdsApi {
             ${Object.keys(data).length > 0 ? JSON.stringify(data) : ''}`
           );
         }
-        throw new FacebookRequestError(response, method, url, data);
+        throw response;
       });
   }
 
