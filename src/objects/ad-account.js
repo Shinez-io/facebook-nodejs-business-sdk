@@ -251,6 +251,12 @@ export default class AdAccount extends AbstractCrudObject {
       website: 'WEBSITE',
     });
   }
+  static get ActionSource (): Object {
+    return Object.freeze({
+      physical_store: 'PHYSICAL_STORE',
+      website: 'WEBSITE',
+    });
+  }
 
   getActivities (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
@@ -476,6 +482,16 @@ export default class AdAccount extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/ads_reporting_mmm_reports'
+    );
+  }
+
+  getAdsReportingMmmSchedulers (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AbstractObject,
+      fields,
+      params,
+      fetchFirstPage,
+      '/ads_reporting_mmm_schedulers'
     );
   }
 
@@ -710,6 +726,16 @@ export default class AdAccount extends AbstractCrudObject {
     );
   }
 
+  getBusinessProjects (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AbstractObject,
+      fields,
+      params,
+      fetchFirstPage,
+      '/businessprojects'
+    );
+  }
+
   deleteCampaigns (params: Object = {}): Promise<*> {
     return super.deleteEdge(
       '/campaigns',
@@ -837,7 +863,7 @@ export default class AdAccount extends AbstractCrudObject {
     );
   }
 
-  getGeneratePreViews (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getGeneratePreviews (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AdPreview,
       fields,
