@@ -30,6 +30,7 @@ export default class ServerEvent {
 	_data_processing_options_state: number;
 	_data_processing_options_country: number;
 	_advanced_measurement_table: string;
+	_advertiser_tracking_enabled: bool;
 
 	/**
 	 * @param {String} event_name A Facebook pixel Standard Event or Custom Event name.
@@ -44,8 +45,9 @@ export default class ServerEvent {
 	 * @param {Number} data_processing_options_country A country that you want to associate to this data processing option.
 	 * @param {Number} data_processing_options_state A state that you want to associate with this data processing option.
 	 * @param {String} advanced_measurement_table Name of Advanced Measurement table. Only used for the Advanced Measurement API in the Advanced Analytics product.
+	 * @param {Boolean} advertiser_tracking_enabled A boolean that indicates whether the user has opted into/out of advertiser tracker on apps.
 	 */
-	constructor(event_name: string, event_time: number, event_source_url: string, user_data: UserData, custom_data: CustomData, app_data: AppData, event_id: string, opt_out: boolean, action_source: string, data_processing_options: Array<string>, data_processing_options_country: number, data_processing_options_state: number, advanced_measurement_table: string) {
+	constructor(event_name: string, event_time: number, event_source_url: string, user_data: UserData, custom_data: CustomData, app_data: AppData, event_id: string, opt_out: boolean, action_source: string, data_processing_options: Array<string>, data_processing_options_country: number, data_processing_options_state: number, advanced_measurement_table: string, advertiser_tracking_enabled: boolean) {
 
 		this._event_name = event_name;
 		this._event_time = event_time;
@@ -377,16 +379,41 @@ export default class ServerEvent {
 	 * Sets the advanced_measurement_table for the current event.
 	 * @param {string} advanced_measurement_table Name of Advanced Measurement table. Only used for the Advanced Measurement API in the Advanced Analytics product.
 	 */
-	set data_processing_options_state(advanced_measurement_table: string) {
-		this._data_processing_options_state = data_processing_options_state;
+	set advanced_measurement_table(advanced_measurement_table: string) {
+		this._advanced_measurement_table = advanced_measurement_table;
 	}
 
 	/**
-	 * Sets the data_processing_options_state for the current event.
+	 * Sets the advanced_measurement_table for the current event.
 	 * @param {string} advanced_measurement_table Name of Advanced Measurement table. Only used for the Advanced Measurement API in the Advanced Analytics product.
 	 */
 	setAdvancedMeasurementTable(advanced_measurement_table: string) : ServerEvent {
 		this._advanced_measurement_table = advanced_measurement_table;
+		return this;
+	}
+
+	/**
+	 * Gets the advertiser_tracking_enabled for the current event.
+	 * @see {@link https://developers.facebook.com/docs/app-events/guides/advertising-tracking-enabled} (documentation only covers iOS SDK)
+	 */
+	get advertiser_tracking_enabled() {
+		return this._data_processing_options_country;
+	}
+	
+	/**
+	 * Sets the advertiser_tracking_enabled for the current event.
+	 * @param {boolean} advertiser_tracking_enabled represents whether the user has opted into/out of advertiser tracking on apps.
+	 */
+	set advertiser_tracking_enabled(advertiser_tracking_enabled: boolean) {
+		this._advertiser_tracking_enabled = advertiser_tracking_enabled;
+	}
+
+	/**
+	 * Sets the advertiser_tracking_enabled for the current event.
+	 * @param {number} data_processing_options_country represents whether the user has opted into/out of advertiser tracking on apps.
+	 */
+	setAdvertiserTrackingEnabled(advertiser_tracking_enabled: boolean) : ServerEvent {
+		this._advertiser_tracking_enabled = advertiser_tracking_enabled;
 		return this;
 	}
 
@@ -449,6 +476,10 @@ export default class ServerEvent {
 
 		if (this.advanced_measurement_table) {
 			serverEvent.advanced_measurement_table = this.advanced_measurement_table;
+		}
+
+		if (this.advertiser_tracking_enabled) {
+			serverEvent.advertiser_tracking_enabled = this.advertiser_tracking_enabled;
 		}
 
 		return serverEvent;
