@@ -172,14 +172,15 @@ export default class FacebookAdsApi {
 
       return Http.request(method, strUrl, data, files, useMultipartFormData, this._showHeader).catch((err) => {
         const strErr = err.toString();
+        const headers = err.response && err.response.headers || {};
         console.error(
           `Caught error: ${strErr} Request: ${method} ${url} ${
             Object.keys(data).length > 0 ? JSON.stringify(data) : ''
-          } Headers: ${JSON.stringify(err.response.headers)} `
+          } Headers: ${JSON.stringify(headers)} `
         );
-        if (err.response.headers['x-app-usage']) {
+        if (headers['x-app-usage']) {
           // see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
-          apiUsage['x-app-usage'] = err.response.headers['x-app-usage'];
+          apiUsage['x-app-usage'] = headers['x-app-usage'];
         }
         if (
           strErr &&
@@ -197,7 +198,7 @@ export default class FacebookAdsApi {
             strErr.includes('Client network socket disconnected before secure TLS connection was established') ||
             strErr.includes("Cannot read property 'error_user_msg' of undefined"))
         ) {
-          if (err.response.headers['x-app-usage']) {
+          if (apiUsage['x-app-usage']) {
             // see https://developers.facebook.com/docs/graph-api/overview/rate-limiting#headers
             const usage = JSON.parse(apiUsage['x-app-usage']);
             if (this._useRateLimit) {
