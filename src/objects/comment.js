@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
@@ -45,6 +47,12 @@ export default class Comment extends AbstractCrudObject {
     });
   }
 
+  static get Order (): Object {
+    return Object.freeze({
+      chronological: 'chronological',
+      reverse_chronological: 'reverse_chronological',
+    });
+  }
   static get CommentPrivacyValue (): Object {
     return Object.freeze({
       declined_by_admin_assistant: 'DECLINED_BY_ADMIN_ASSISTANT',
@@ -70,12 +78,6 @@ export default class Comment extends AbstractCrudObject {
     return Object.freeze({
       filter_low_quality: 'filter_low_quality',
       no_filter: 'no_filter',
-    });
-  }
-  static get Order (): Object {
-    return Object.freeze({
-      chronological: 'chronological',
-      reverse_chronological: 'reverse_chronological',
     });
   }
 

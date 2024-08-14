@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
@@ -58,22 +60,6 @@ export default class OfflineConversionDataSet extends AbstractCrudObject {
     });
   }
 
-  static get PermittedRoles (): Object {
-    return Object.freeze({
-      admin: 'ADMIN',
-      advertiser: 'ADVERTISER',
-      uploader: 'UPLOADER',
-    });
-  }
-  static get RelationshipType (): Object {
-    return Object.freeze({
-      ad_manager: 'AD_MANAGER',
-      agency: 'AGENCY',
-      aggregator: 'AGGREGATOR',
-      audience_manager: 'AUDIENCE_MANAGER',
-      other: 'OTHER',
-    });
-  }
 
   getAdAccounts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
@@ -85,16 +71,6 @@ export default class OfflineConversionDataSet extends AbstractCrudObject {
     );
   }
 
-  createAdAccount (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<OfflineConversionDataSet> {
-    return this.createEdge(
-      '/adaccounts',
-      fields,
-      params,
-      OfflineConversionDataSet,
-      pathOverride,
-    );
-  }
-
   getAgencies (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       Business,
@@ -102,16 +78,6 @@ export default class OfflineConversionDataSet extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/agencies'
-    );
-  }
-
-  createAgency (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<OfflineConversionDataSet> {
-    return this.createEdge(
-      '/agencies',
-      fields,
-      params,
-      OfflineConversionDataSet,
-      pathOverride,
     );
   }
 
@@ -145,7 +111,7 @@ export default class OfflineConversionDataSet extends AbstractCrudObject {
     );
   }
 
-  getSharedAccounts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getShareDAccounts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AdAccount,
       fields,
@@ -155,7 +121,7 @@ export default class OfflineConversionDataSet extends AbstractCrudObject {
     );
   }
 
-  getSharedAgencies (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getShareDAgencies (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       Business,
       fields,
@@ -185,47 +151,11 @@ export default class OfflineConversionDataSet extends AbstractCrudObject {
     );
   }
 
-  createUpload (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<OfflineConversionDataSetUpload> {
-    return this.createEdge(
-      '/uploads',
-      fields,
-      params,
-      OfflineConversionDataSetUpload,
-      pathOverride,
-    );
-  }
-
-  createValidate (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<OfflineConversionDataSet> {
-    return this.createEdge(
-      '/validate',
-      fields,
-      params,
-      OfflineConversionDataSet,
-      pathOverride,
-    );
-  }
-
-  // $FlowFixMe : Support Generic Types
-  delete (fields: Array<string>, params: Object = {}): AbstractObject {
-    // $FlowFixMe : Support Generic Types
-    return super.delete(
-      params
-    );
-  }
-
   
   get (fields: Array<string>, params: Object = {}): OfflineConversionDataSet {
     // $FlowFixMe : Support Generic Types
     return this.read(
       fields,
-      params
-    );
-  }
-
-  // $FlowFixMe : Support Generic Types
-  update (fields: Array<string>, params: Object = {}): OfflineConversionDataSet {
-    // $FlowFixMe : Support Generic Types
-    return super.update(
       params
     );
   }

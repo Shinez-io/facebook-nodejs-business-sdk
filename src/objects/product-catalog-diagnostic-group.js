@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 
 /**
@@ -32,16 +34,26 @@ export default class ProductCatalogDiagnosticGroup extends AbstractCrudObject {
 
   static get AffectedChannels (): Object {
     return Object.freeze({
-      business_inbox_in_messenger: 'business_inbox_in_messenger',
+      b2c_marketplace: 'b2c_marketplace',
+      c2c_marketplace: 'c2c_marketplace',
+      da: 'da',
+      daily_deals: 'daily_deals',
+      daily_deals_legacy: 'daily_deals_legacy',
+      ig_product_tagging: 'ig_product_tagging',
+      marketplace: 'marketplace',
+      marketplace_ads_deprecated: 'marketplace_ads_deprecated',
+      marketplace_shops: 'marketplace_shops',
+      mini_shops: 'mini_shops',
+      offline_conversions: 'offline_conversions',
       shops: 'shops',
-      test_capability: 'test_capability',
       universal_checkout: 'universal_checkout',
-      us_marketplace: 'us_marketplace',
+      whatsapp: 'whatsapp',
     });
   }
   static get AffectedEntity (): Object {
     return Object.freeze({
       product_catalog: 'product_catalog',
+      product_event: 'product_event',
       product_item: 'product_item',
       product_set: 'product_set',
     });
@@ -65,6 +77,8 @@ export default class ProductCatalogDiagnosticGroup extends AbstractCrudObject {
       attributes_missing: 'ATTRIBUTES_MISSING',
       category: 'CATEGORY',
       checkout: 'CHECKOUT',
+      da_visibility_issues: 'DA_VISIBILITY_ISSUES',
+      event_source_issues: 'EVENT_SOURCE_ISSUES',
       image_quality: 'IMAGE_QUALITY',
       low_quality_title_and_description: 'LOW_QUALITY_TITLE_AND_DESCRIPTION',
       policy_violation: 'POLICY_VIOLATION',
@@ -74,6 +88,7 @@ export default class ProductCatalogDiagnosticGroup extends AbstractCrudObject {
   static get AffectedEntities (): Object {
     return Object.freeze({
       product_catalog: 'product_catalog',
+      product_event: 'product_event',
       product_item: 'product_item',
       product_set: 'product_set',
     });
@@ -91,6 +106,8 @@ export default class ProductCatalogDiagnosticGroup extends AbstractCrudObject {
       attributes_missing: 'ATTRIBUTES_MISSING',
       category: 'CATEGORY',
       checkout: 'CHECKOUT',
+      da_visibility_issues: 'DA_VISIBILITY_ISSUES',
+      event_source_issues: 'EVENT_SOURCE_ISSUES',
       image_quality: 'IMAGE_QUALITY',
       low_quality_title_and_description: 'LOW_QUALITY_TITLE_AND_DESCRIPTION',
       policy_violation: 'POLICY_VIOLATION',

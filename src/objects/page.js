@@ -1,42 +1,50 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
+import PagePostExperiment from './page-post-experiment';
 import PagePost from './page-post';
 import Business from './business';
 import Album from './album';
+import ArAdsDataContainer from './ar-ads-data-container';
 import AssignedUser from './assigned-user';
 import Profile from './profile';
+import BusinessProject from './business-project';
 import PageCallToAction from './page-call-to-action';
 import CanvasBodyElement from './canvas-body-element';
 import Canvas from './canvas';
 import ChatPlugin from './chat-plugin';
-import PageCommerceEligibility from './page-commerce-eligibility';
 import CommerceMerchantSettings from './commerce-merchant-settings';
 import CommerceOrder from './commerce-order';
 import CommercePayout from './commerce-payout';
 import CommerceOrderTransactionDetail from './commerce-order-transaction-detail';
 import UnifiedThread from './unified-thread';
+import VideoCopyrightMatch from './video-copyright-match';
 import PageUserMessageThreadLabel from './page-user-message-thread-label';
 import CustomUserSettings from './custom-user-settings';
+import AdsPixel from './ads-pixel';
 import Event from './event';
+import FantasyGame from './fantasy-game';
 import Group from './group';
 import ImageCopyright from './image-copyright';
 import AdVideo from './ad-video';
 import InsightsResult from './insights-result';
 import InstagramUser from './instagram-user';
-import InstantArticlesStats from './instant-articles-stats';
 import LeadgenForm from './leadgen-form';
 import LiveVideo from './live-video';
 import MediaFingerprint from './media-fingerprint';
 import MessagingFeatureReview from './messaging-feature-review';
+import MessengerCallSettings from './messenger-call-settings';
+import MessengerAdsPartialAutomatedStepList from './messenger-ads-partial-automated-step-list';
 import MessengerProfile from './messenger-profile';
 import UserPageOneTimeOptInTokenSettings from './user-page-one-time-opt-in-token-settings';
 import Persona from './persona';
@@ -49,11 +57,13 @@ import RTBDynamicPost from './rtb-dynamic-post';
 import Application from './application';
 import PageSettings from './page-settings';
 import CommerceMerchantSettingsSetupStatus from './commerce-merchant-settings-setup-status';
+import Stories from './stories';
 import Tab from './tab';
 import PageThreadOwner from './page-thread-owner';
 import VideoCopyrightRule from './video-copyright-rule';
 import VideoCopyright from './video-copyright';
 import VideoList from './video-list';
+import CTXPartnerAppWelcomeMessageFlow from './ctx-partner-app-welcome-message-flow';
 
 /**
  * Page
@@ -70,6 +80,7 @@ export default class Page extends AbstractCrudObject {
       app_id: 'app_id',
       artists_we_like: 'artists_we_like',
       attire: 'attire',
+      available_promo_offer_ids: 'available_promo_offer_ids',
       awards: 'awards',
       band_interests: 'band_interests',
       band_members: 'band_members',
@@ -77,6 +88,7 @@ export default class Page extends AbstractCrudObject {
       bio: 'bio',
       birthday: 'birthday',
       booking_agent: 'booking_agent',
+      breaking_news_usage: 'breaking_news_usage',
       built: 'built',
       business: 'business',
       can_checkin: 'can_checkin',
@@ -100,6 +112,7 @@ export default class Page extends AbstractCrudObject {
       directed_by: 'directed_by',
       display_subtext: 'display_subtext',
       displayed_message_response_time: 'displayed_message_response_time',
+      does_viewer_have_page_permission_link_ig: 'does_viewer_have_page_permission_link_ig',
       emails: 'emails',
       engagement: 'engagement',
       fan_count: 'fan_count',
@@ -114,6 +127,7 @@ export default class Page extends AbstractCrudObject {
       global_brand_page_name: 'global_brand_page_name',
       global_brand_root_id: 'global_brand_root_id',
       has_added_app: 'has_added_app',
+      has_lead_access: 'has_lead_access',
       has_transitioned_to_new_page_experience: 'has_transitioned_to_new_page_experience',
       has_whatsapp_business_number: 'has_whatsapp_business_number',
       has_whatsapp_number: 'has_whatsapp_number',
@@ -124,9 +138,11 @@ export default class Page extends AbstractCrudObject {
       influences: 'influences',
       instagram_business_account: 'instagram_business_account',
       is_always_open: 'is_always_open',
+      is_calling_eligible: 'is_calling_eligible',
       is_chain: 'is_chain',
       is_community_page: 'is_community_page',
       is_eligible_for_branded_content: 'is_eligible_for_branded_content',
+      is_eligible_for_disable_connect_ig_btn_for_non_page_admin_am_web: 'is_eligible_for_disable_connect_ig_btn_for_non_page_admin_am_web',
       is_messenger_bot_get_started_enabled: 'is_messenger_bot_get_started_enabled',
       is_messenger_platform_bot: 'is_messenger_platform_bot',
       is_owned: 'is_owned',
@@ -146,7 +162,6 @@ export default class Page extends AbstractCrudObject {
       merchant_review_status: 'merchant_review_status',
       messaging_feature_status: 'messaging_feature_status',
       messenger_ads_default_icebreakers: 'messenger_ads_default_icebreakers',
-      messenger_ads_default_page_welcome_message: 'messenger_ads_default_page_welcome_message',
       messenger_ads_default_quick_replies: 'messenger_ads_default_quick_replies',
       messenger_ads_quick_replies_type: 'messenger_ads_quick_replies_type',
       mini_shop_storefront: 'mini_shop_storefront',
@@ -201,6 +216,7 @@ export default class Page extends AbstractCrudObject {
       unread_message_count: 'unread_message_count',
       unread_notif_count: 'unread_notif_count',
       unseen_message_count: 'unseen_message_count',
+      user_access_expire_time: 'user_access_expire_time',
       username: 'username',
       verification_status: 'verification_status',
       voip_info: 'voip_info',
@@ -403,14 +419,6 @@ export default class Page extends AbstractCrudObject {
       year: 'year',
     });
   }
-  static get CheckinEntryPoint (): Object {
-    return Object.freeze({
-      branding_checkin: 'BRANDING_CHECKIN',
-      branding_other: 'BRANDING_OTHER',
-      branding_photo: 'BRANDING_PHOTO',
-      branding_status: 'BRANDING_STATUS',
-    });
-  }
   static get Formatting (): Object {
     return Object.freeze({
       markdown: 'MARKDOWN',
@@ -521,7 +529,6 @@ export default class Page extends AbstractCrudObject {
   static get DeveloperAction (): Object {
     return Object.freeze({
       enable_followup_message: 'ENABLE_FOLLOWUP_MESSAGE',
-      send_re_optin: 'SEND_RE_OPTIN',
     });
   }
   static get SubscribedFields (): Object {
@@ -531,6 +538,7 @@ export default class Page extends AbstractCrudObject {
       awards: 'awards',
       bio: 'bio',
       birthday: 'birthday',
+      calls: 'calls',
       category: 'category',
       checkins: 'checkins',
       company_overview: 'company_overview',
@@ -547,8 +555,8 @@ export default class Page extends AbstractCrudObject {
       group_feed: 'group_feed',
       hometown: 'hometown',
       hours: 'hours',
-      in_thread_lead_form_submit: 'in_thread_lead_form_submit',
       inbox_labels: 'inbox_labels',
+      invalid_topic_placeholder: 'invalid_topic_placeholder',
       invoice_access_bank_slip_events: 'invoice_access_bank_slip_events',
       invoice_access_invoice_change: 'invoice_access_invoice_change',
       invoice_access_invoice_draft_change: 'invoice_access_invoice_draft_change',
@@ -565,6 +573,7 @@ export default class Page extends AbstractCrudObject {
       message_context: 'message_context',
       message_deliveries: 'message_deliveries',
       message_echoes: 'message_echoes',
+      message_edits: 'message_edits',
       message_mention: 'message_mention',
       message_reactions: 'message_reactions',
       message_reads: 'message_reads',
@@ -578,6 +587,7 @@ export default class Page extends AbstractCrudObject {
       messaging_feedback: 'messaging_feedback',
       messaging_game_plays: 'messaging_game_plays',
       messaging_handovers: 'messaging_handovers',
+      messaging_in_thread_lead_form_submit: 'messaging_in_thread_lead_form_submit',
       messaging_optins: 'messaging_optins',
       messaging_optouts: 'messaging_optouts',
       messaging_payments: 'messaging_payments',
@@ -587,11 +597,13 @@ export default class Page extends AbstractCrudObject {
       messaging_referrals: 'messaging_referrals',
       mission: 'mission',
       name: 'name',
+      otp_verification: 'otp_verification',
       page_about_story: 'page_about_story',
       page_change_proposal: 'page_change_proposal',
       page_upcoming_change: 'page_upcoming_change',
       parking: 'parking',
       payment_options: 'payment_options',
+      payment_request_update: 'payment_request_update',
       personal_info: 'personal_info',
       personal_interests: 'personal_interests',
       phone: 'phone',
@@ -603,6 +615,7 @@ export default class Page extends AbstractCrudObject {
       publisher_subscriptions: 'publisher_subscriptions',
       ratings: 'ratings',
       registration: 'registration',
+      response_feedback: 'response_feedback',
       send_cart: 'send_cart',
       standby: 'standby',
       user_action: 'user_action',
@@ -610,6 +623,36 @@ export default class Page extends AbstractCrudObject {
       videos: 'videos',
       website: 'website',
     });
+  }
+  static get Action (): Object {
+    return Object.freeze({
+      spam: 'SPAM',
+    });
+  }
+  static get ActionType (): Object {
+    return Object.freeze({
+      report_thread: 'REPORT_THREAD',
+    });
+  }
+
+  getAbTests (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      PagePostExperiment,
+      fields,
+      params,
+      fetchFirstPage,
+      '/ab_tests'
+    );
+  }
+
+  createAbTest (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<PagePostExperiment> {
+    return this.createEdge(
+      '/ab_tests',
+      fields,
+      params,
+      PagePostExperiment,
+      pathOverride,
+    );
   }
 
   createAcknowledgeOrder (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
@@ -671,7 +714,7 @@ export default class Page extends AbstractCrudObject {
 
   getArExperience (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      ArAdsDataContainer,
       fields,
       params,
       fetchFirstPage,
@@ -745,7 +788,7 @@ export default class Page extends AbstractCrudObject {
 
   getBusinessProjects (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      BusinessProject,
       fields,
       params,
       fetchFirstPage,
@@ -760,6 +803,16 @@ export default class Page extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/call_to_actions'
+    );
+  }
+
+  createCall (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/calls',
+      fields,
+      params,
+      null,
+      pathOverride,
     );
   }
 
@@ -823,16 +876,6 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
-  getCommerceEligibility (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      PageCommerceEligibility,
-      fields,
-      params,
-      fetchFirstPage,
-      '/commerce_eligibility'
-    );
-  }
-
   getCommerceMerchantSettings (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       CommerceMerchantSettings,
@@ -883,12 +926,12 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
-  createCopyrightManualClaim (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+  createCopyrightManualClaim (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<VideoCopyrightMatch> {
     return this.createEdge(
       '/copyright_manual_claims',
       fields,
       params,
-      null,
+      VideoCopyrightMatch,
       pathOverride,
     );
   }
@@ -950,6 +993,26 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
+  getDataSet (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AdsPixel,
+      fields,
+      params,
+      fetchFirstPage,
+      '/dataset'
+    );
+  }
+
+  createDataSet (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsPixel> {
+    return this.createEdge(
+      '/dataset',
+      fields,
+      params,
+      AdsPixel,
+      pathOverride,
+    );
+  }
+
   getEvents (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       Event,
@@ -972,7 +1035,7 @@ export default class Page extends AbstractCrudObject {
 
   getFantasyGames (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      FantasyGame,
       fields,
       params,
       fetchFirstPage,
@@ -1067,26 +1130,6 @@ export default class Page extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/instagram_accounts'
-    );
-  }
-
-  getInstantArticlesStats (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      InstantArticlesStats,
-      fields,
-      params,
-      fetchFirstPage,
-      '/instant_articles_stats'
-    );
-  }
-
-  getInvoiceAccessBankAccount (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      AbstractObject,
-      fields,
-      params,
-      fetchFirstPage,
-      '/invoice_access_bank_account'
     );
   }
 
@@ -1187,7 +1230,7 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
-  createMessageAttachment (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+  createMessageAttachMEnt (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
     return this.createEdge(
       '/message_attachments',
       fields,
@@ -1214,6 +1257,46 @@ export default class Page extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/messaging_feature_review'
+    );
+  }
+
+  getMessengerCallSettings (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      MessengerCallSettings,
+      fields,
+      params,
+      fetchFirstPage,
+      '/messenger_call_settings'
+    );
+  }
+
+  createMessengerCallSetting (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
+    return this.createEdge(
+      '/messenger_call_settings',
+      fields,
+      params,
+      Page,
+      pathOverride,
+    );
+  }
+
+  getMessengerLeadForMs (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      MessengerAdsPartialAutomatedStepList,
+      fields,
+      params,
+      fetchFirstPage,
+      '/messenger_lead_forms'
+    );
+  }
+
+  createMessengerLeadForM (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
+    return this.createEdge(
+      '/messenger_lead_forms',
+      fields,
+      params,
+      Page,
+      pathOverride,
     );
   }
 
@@ -1294,7 +1377,7 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
-  createPageWhatsappNumberVerification (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
+  createPageWhatsAppNumberVerification (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
     return this.createEdge(
       '/page_whatsapp_number_verification',
       fields,
@@ -1340,6 +1423,16 @@ export default class Page extends AbstractCrudObject {
       fields,
       params,
       Persona,
+      pathOverride,
+    );
+  }
+
+  createPhotoStory (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
+    return this.createEdge(
+      '/photo_stories',
+      fields,
+      params,
+      Page,
       pathOverride,
     );
   }
@@ -1464,7 +1557,7 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
-  getScheduledPosts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getScheduleDPosts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       PagePost,
       fields,
@@ -1511,6 +1604,16 @@ export default class Page extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/shop_setup_status'
+    );
+  }
+
+  getStories (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      Stories,
+      fields,
+      params,
+      fetchFirstPage,
+      '/stories'
     );
   }
 
@@ -1564,6 +1667,16 @@ export default class Page extends AbstractCrudObject {
   createTakeThreadControl (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
     return this.createEdge(
       '/take_thread_control',
+      fields,
+      params,
+      Page,
+      pathOverride,
+    );
+  }
+
+  createThreadAction (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Page> {
+    return this.createEdge(
+      '/thread_action',
       fields,
       params,
       Page,
@@ -1661,6 +1774,16 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
+  createVideoStory (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/video_stories',
+      fields,
+      params,
+      null,
+      pathOverride,
+    );
+  }
+
   getVideos (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AdVideo,
@@ -1691,13 +1814,30 @@ export default class Page extends AbstractCrudObject {
     );
   }
 
+  deleteWelcomeMessageFlows (params: Object = {}): Promise<*> {
+    return super.deleteEdge(
+      '/welcome_message_flows',
+      params
+    );
+  }
+
   getWelcomeMessageFlows (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      CTXPartnerAppWelcomeMessageFlow,
       fields,
       params,
       fetchFirstPage,
       '/welcome_message_flows'
+    );
+  }
+
+  createWelcomeMessageFlow (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/welcome_message_flows',
+      fields,
+      params,
+      null,
+      pathOverride,
     );
   }
 

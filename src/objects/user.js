@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
@@ -15,8 +17,10 @@ import AdAccount from './ad-account';
 import Album from './album';
 import AppRequestFormerRecipient from './app-request-former-recipient';
 import AppRequest from './app-request';
+import Application from './application';
 import BusinessAssetGroup from './business-asset-group';
 import ProductCatalog from './product-catalog';
+import Avatar from './avatar';
 import BusinessUser from './business-user';
 import Business from './business';
 import UnifiedThread from './unified-thread';
@@ -24,7 +28,6 @@ import PageUserMessageThreadLabel from './page-user-message-thread-label';
 import Event from './event';
 import Post from './post';
 import FundraiserPersonToCharity from './fundraiser-person-to-charity';
-import GameItem from './game-item';
 import Group from './group';
 import UserIDForApp from './user-id-for-app';
 import UserIDForPage from './user-id-for-page';
@@ -46,6 +49,7 @@ export default class User extends AbstractCrudObject {
     return Object.freeze({
       about: 'about',
       age_range: 'age_range',
+      avatar_2d_profile_picture: 'avatar_2d_profile_picture',
       birthday: 'birthday',
       community: 'community',
       cover: 'cover',
@@ -63,6 +67,7 @@ export default class User extends AbstractCrudObject {
       install_type: 'install_type',
       installed: 'installed',
       is_guest_user: 'is_guest_user',
+      is_work_account: 'is_work_account',
       languages: 'languages',
       last_name: 'last_name',
       link: 'link',
@@ -237,6 +242,16 @@ export default class User extends AbstractCrudObject {
     );
   }
 
+  getAssignedApplications (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      Application,
+      fields,
+      params,
+      fetchFirstPage,
+      '/assigned_applications'
+    );
+  }
+
   getAssignedBusinessAssetGroups (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       BusinessAssetGroup,
@@ -269,7 +284,7 @@ export default class User extends AbstractCrudObject {
 
   getAvatars (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      Avatar,
       fields,
       params,
       fetchFirstPage,
@@ -390,26 +405,6 @@ export default class User extends AbstractCrudObject {
       fields,
       params,
       FundraiserPersonToCharity,
-      pathOverride,
-    );
-  }
-
-  createGameItem (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<GameItem> {
-    return this.createEdge(
-      '/game_items',
-      fields,
-      params,
-      GameItem,
-      pathOverride,
-    );
-  }
-
-  createGameTime (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
-    return this.createEdge(
-      '/game_times',
-      fields,
-      params,
-      null,
       pathOverride,
     );
   }

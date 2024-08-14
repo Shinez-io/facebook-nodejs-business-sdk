@@ -1,16 +1,20 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
+import DynamicARMetadata from './dynamic-ar-metadata';
 import CatalogItemChannelsToIntegrityStatus from './catalog-item-channels-to-integrity-status';
 import HotelRoom from './hotel-room';
+import DynamicVideoMetadata from './dynamic-video-metadata';
 
 /**
  * Hotel
@@ -40,6 +44,7 @@ export default class Hotel extends AbstractCrudObject {
       sale_price: 'sale_price',
       sanitized_images: 'sanitized_images',
       star_rating: 'star_rating',
+      tags: 'tags',
       unit_price: 'unit_price',
       url: 'url',
       visibility: 'visibility',
@@ -65,7 +70,7 @@ export default class Hotel extends AbstractCrudObject {
 
   getAugmentedRealitiesMetadata (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      DynamicARMetadata,
       fields,
       params,
       fetchFirstPage,
@@ -95,7 +100,7 @@ export default class Hotel extends AbstractCrudObject {
 
   getVideosMetadata (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      DynamicVideoMetadata,
       fields,
       params,
       fetchFirstPage,

@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 
 /**
@@ -102,13 +104,19 @@ export default class AdActivity extends AbstractCrudObject {
       update_campaign_ad_scheduling: 'update_campaign_ad_scheduling',
       update_campaign_budget: 'update_campaign_budget',
       update_campaign_budget_optimization_toggling_status: 'update_campaign_budget_optimization_toggling_status',
+      update_campaign_budget_scheduling_state: 'update_campaign_budget_scheduling_state',
+      update_campaign_conversion_goal: 'update_campaign_conversion_goal',
       update_campaign_delivery_type: 'update_campaign_delivery_type',
       update_campaign_group_ad_scheduling: 'update_campaign_group_ad_scheduling',
+      update_campaign_group_budget_scheduling_state: 'update_campaign_group_budget_scheduling_state',
       update_campaign_group_delivery_type: 'update_campaign_group_delivery_type',
+      update_campaign_group_high_demand_periods: 'update_campaign_group_high_demand_periods',
       update_campaign_group_spend_cap: 'update_campaign_group_spend_cap',
+      update_campaign_high_demand_periods: 'update_campaign_high_demand_periods',
       update_campaign_name: 'update_campaign_name',
       update_campaign_run_status: 'update_campaign_run_status',
       update_campaign_schedule: 'update_campaign_schedule',
+      update_campaign_value_adjustment_rule: 'update_campaign_value_adjustment_rule',
       update_delivery_type_cross_level_shift: 'update_delivery_type_cross_level_shift',
     });
   }

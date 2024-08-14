@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
@@ -63,6 +65,19 @@ export default class CustomConversion extends AbstractCrudObject {
       start_trial: 'START_TRIAL',
       submit_application: 'SUBMIT_APPLICATION',
       subscribe: 'SUBSCRIBE',
+    });
+  }
+  static get ActionSourceType (): Object {
+    return Object.freeze({
+      app: 'app',
+      business_messaging: 'business_messaging',
+      chat: 'chat',
+      email: 'email',
+      other: 'other',
+      phone_call: 'phone_call',
+      physical_store: 'physical_store',
+      system_generated: 'system_generated',
+      website: 'website',
     });
   }
 

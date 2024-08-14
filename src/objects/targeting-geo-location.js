@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 
 /**
@@ -24,7 +26,6 @@ export default class TargetingGeoLocation extends AbstractCrudObject {
       geo_markets: 'geo_markets',
       large_geo_areas: 'large_geo_areas',
       location_cluster_ids: 'location_cluster_ids',
-      location_expansion: 'location_expansion',
       location_types: 'location_types',
       medium_geo_areas: 'medium_geo_areas',
       metro_areas: 'metro_areas',

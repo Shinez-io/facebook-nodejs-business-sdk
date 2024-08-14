@@ -1,15 +1,19 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import Cursor from './../cursor';
 import Business from './business';
+import AREffect from './ar-effect';
 import AdAccount from './ad-account';
+import IGUpcomingEvent from './ig-upcoming-event';
 
 /**
  * InstagramUser
@@ -44,6 +48,16 @@ export default class InstagramUser extends AbstractCrudObject {
     );
   }
 
+  getArEffects (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AREffect,
+      fields,
+      params,
+      fetchFirstPage,
+      '/ar_effects'
+    );
+  }
+
   getAuthorizedAdAccounts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AdAccount,
@@ -60,6 +74,26 @@ export default class InstagramUser extends AbstractCrudObject {
       fields,
       params,
       InstagramUser,
+      pathOverride,
+    );
+  }
+
+  getUpcomingEvents (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      IGUpcomingEvent,
+      fields,
+      params,
+      fetchFirstPage,
+      '/upcoming_events'
+    );
+  }
+
+  createUpcomingEvent (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<IGUpcomingEvent> {
+    return this.createEdge(
+      '/upcoming_events',
+      fields,
+      params,
+      IGUpcomingEvent,
       pathOverride,
     );
   }

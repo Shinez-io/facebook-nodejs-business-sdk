@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
@@ -20,6 +22,7 @@ export default class CommerceOrder extends AbstractCrudObject {
     return Object.freeze({
       buyer_details: 'buyer_details',
       channel: 'channel',
+      contains_bopis_items: 'contains_bopis_items',
       created: 'created',
       estimated_payment_details: 'estimated_payment_details',
       id: 'id',
@@ -88,7 +91,7 @@ export default class CommerceOrder extends AbstractCrudObject {
     );
   }
 
-  createCancellation (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
+  createCanCellATIOn (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
     return this.createEdge(
       '/cancellations',
       fields,
@@ -98,9 +101,9 @@ export default class CommerceOrder extends AbstractCrudObject {
     );
   }
 
-  createFulfillOrder (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
+  createItemUpdate (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
     return this.createEdge(
-      '/fulfill_order',
+      '/item_updates',
       fields,
       params,
       CommerceOrder,
@@ -138,7 +141,7 @@ export default class CommerceOrder extends AbstractCrudObject {
     );
   }
 
-  getPromotions (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getPromoTIOns (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AbstractObject,
       fields,
@@ -211,6 +214,16 @@ export default class CommerceOrder extends AbstractCrudObject {
   createUpdateShipment (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
     return this.createEdge(
       '/update_shipment',
+      fields,
+      params,
+      CommerceOrder,
+      pathOverride,
+    );
+  }
+
+  createUpdate (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
+    return this.createEdge(
+      '/updates',
       fields,
       params,
       CommerceOrder,

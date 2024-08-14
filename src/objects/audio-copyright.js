@@ -1,14 +1,16 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
-import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
+import MediaCopyrightUpdateRecord from './media-copyright-update-record';
 
 /**
  * AudioCopyright
@@ -25,6 +27,7 @@ export default class AudioCopyright extends AbstractCrudObject {
       isrc: 'isrc',
       match_rule: 'match_rule',
       ownership_countries: 'ownership_countries',
+      ownership_details: 'ownership_details',
       reference_file_status: 'reference_file_status',
       ridge_monitoring_status: 'ridge_monitoring_status',
       tags: 'tags',
@@ -37,7 +40,7 @@ export default class AudioCopyright extends AbstractCrudObject {
 
   getUpdateRecords (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      MediaCopyrightUpdateRecord,
       fields,
       params,
       fetchFirstPage,

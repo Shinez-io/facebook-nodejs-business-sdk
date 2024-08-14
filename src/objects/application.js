@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
@@ -16,7 +18,7 @@ import Business from './business';
 import Group from './group';
 import AdAccount from './ad-account';
 import DACheck from './da-check';
-import Event from './event';
+import AdsDataset from './ads-dataset';
 import NullNode from './null-node';
 
 /**
@@ -52,6 +54,8 @@ export default class Application extends AbstractCrudObject {
       auto_event_mapping_android: 'auto_event_mapping_android',
       auto_event_mapping_ios: 'auto_event_mapping_ios',
       auto_event_setup_enabled: 'auto_event_setup_enabled',
+      auto_log_app_events_default: 'auto_log_app_events_default',
+      auto_log_app_events_enabled: 'auto_log_app_events_enabled',
       business: 'business',
       canvas_fluid_height: 'canvas_fluid_height',
       canvas_fluid_width: 'canvas_fluid_width',
@@ -104,6 +108,7 @@ export default class Application extends AbstractCrudObject {
       privacy_policy_url: 'privacy_policy_url',
       profile_section_url: 'profile_section_url',
       property_id: 'property_id',
+      protected_mode_rules: 'protected_mode_rules',
       real_time_mode_devices: 'real_time_mode_devices',
       restrictions: 'restrictions',
       restrictive_data_filter_params: 'restrictive_data_filter_params',
@@ -200,6 +205,34 @@ export default class Application extends AbstractCrudObject {
       app: 'APP',
       app_and_page: 'APP_AND_PAGE',
       page: 'PAGE',
+    });
+  }
+  static get OwnerPermissions (): Object {
+    return Object.freeze({
+      develop: 'DEVELOP',
+      manage: 'MANAGE',
+      manage_extensions: 'MANAGE_EXTENSIONS',
+      manage_phone: 'MANAGE_PHONE',
+      manage_phone_assets: 'MANAGE_PHONE_ASSETS',
+      manage_templates: 'MANAGE_TEMPLATES',
+      messaging: 'MESSAGING',
+      view_cost: 'VIEW_COST',
+      view_phone_assets: 'VIEW_PHONE_ASSETS',
+      view_templates: 'VIEW_TEMPLATES',
+    });
+  }
+  static get PartnerPermissions (): Object {
+    return Object.freeze({
+      develop: 'DEVELOP',
+      manage: 'MANAGE',
+      manage_extensions: 'MANAGE_EXTENSIONS',
+      manage_phone: 'MANAGE_PHONE',
+      manage_phone_assets: 'MANAGE_PHONE_ASSETS',
+      manage_templates: 'MANAGE_TEMPLATES',
+      messaging: 'MESSAGING',
+      view_cost: 'VIEW_COST',
+      view_phone_assets: 'VIEW_PHONE_ASSETS',
+      view_templates: 'VIEW_TEMPLATES',
     });
   }
 
@@ -500,23 +533,23 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  getEvents (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      Event,
+  createDomainReport (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/domain_reports',
       fields,
       params,
-      fetchFirstPage,
-      '/events'
+      null,
+      pathOverride,
     );
   }
 
-  getInsightsPushSchedule (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getIapPurchases (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AbstractObject,
       fields,
       params,
       fetchFirstPage,
-      '/insights_push_schedule'
+      '/iap_purchases'
     );
   }
 
@@ -532,7 +565,7 @@ export default class Application extends AbstractCrudObject {
 
   getLinkedDataset (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      AbstractObject,
+      AdsDataset,
       fields,
       params,
       fetchFirstPage,
@@ -587,6 +620,16 @@ export default class Application extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/object_types'
+    );
+  }
+
+  getObjects (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      NullNode,
+      fields,
+      params,
+      fetchFirstPage,
+      '/objects'
     );
   }
 
@@ -660,6 +703,16 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
+  getServerDomainInfos (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AbstractObject,
+      fields,
+      params,
+      fetchFirstPage,
+      '/server_domain_infos'
+    );
+  }
+
   getSubscribedDomains (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AbstractObject,
@@ -724,6 +777,26 @@ export default class Application extends AbstractCrudObject {
       params,
       null,
       pathOverride,
+    );
+  }
+
+  createWhatsAppBusinessSolution (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
+    return this.createEdge(
+      '/whatsapp_business_solution',
+      fields,
+      params,
+      Application,
+      pathOverride,
+    );
+  }
+
+  getWhatsAppBusinessSolutions (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AbstractObject,
+      fields,
+      params,
+      fetchFirstPage,
+      '/whatsapp_business_solutions'
     );
   }
 

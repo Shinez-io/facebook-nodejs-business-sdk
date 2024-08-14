@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
@@ -40,6 +42,7 @@ export default class AdsPixel extends AbstractCrudObject {
       event_time_max: 'event_time_max',
       event_time_min: 'event_time_min',
       first_party_cookie_status: 'first_party_cookie_status',
+      has_1p_pixel_event: 'has_1p_pixel_event',
       id: 'id',
       is_consolidated_container: 'is_consolidated_container',
       is_created_by_business: 'is_created_by_business',
@@ -56,6 +59,7 @@ export default class AdsPixel extends AbstractCrudObject {
       owner_ad_account: 'owner_ad_account',
       owner_business: 'owner_business',
       usage: 'usage',
+      user_access_expire_time: 'user_access_expire_time',
       valid_entries: 'valid_entries',
     });
   }
@@ -95,6 +99,13 @@ export default class AdsPixel extends AbstractCrudObject {
       first_party_cookie_enabled: 'FIRST_PARTY_COOKIE_ENABLED',
     });
   }
+  static get PermittedTasks (): Object {
+    return Object.freeze({
+      advertise: 'ADVERTISE',
+      analyze: 'ANALYZE',
+      upload: 'UPLOAD',
+    });
+  }
   static get Tasks (): Object {
     return Object.freeze({
       aa_analyze: 'AA_ANALYZE',
@@ -115,6 +126,13 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
+  deleteAgencies (params: Object = {}): Promise<*> {
+    return super.deleteEdge(
+      '/agencies',
+      params
+    );
+  }
+
   getAgencies (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       Business,
@@ -122,6 +140,26 @@ export default class AdsPixel extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/agencies'
+    );
+  }
+
+  createAgency (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsPixel> {
+    return this.createEdge(
+      '/agencies',
+      fields,
+      params,
+      AdsPixel,
+      pathOverride,
+    );
+  }
+
+  createAhpConfig (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
+    return this.createEdge(
+      '/ahp_configs',
+      fields,
+      params,
+      null,
+      pathOverride,
     );
   }
 
@@ -165,16 +203,6 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
-  createMeapitocapiconsolidationhelper (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
-    return this.createEdge(
-      '/meapitocapiconsolidationhelper',
-      fields,
-      params,
-      null,
-      pathOverride,
-    );
-  }
-
   getOfflineEventUploads (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       OfflineConversionDataSetUpload,
@@ -205,14 +233,14 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
-  deleteSharedAccounts (params: Object = {}): Promise<*> {
+  deleteShareDAccounts (params: Object = {}): Promise<*> {
     return super.deleteEdge(
       '/shared_accounts',
       params
     );
   }
 
-  getSharedAccounts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getShareDAccounts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AdAccount,
       fields,
@@ -222,7 +250,7 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
-  createSharedAccount (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsPixel> {
+  createShareDAccount (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsPixel> {
     return this.createEdge(
       '/shared_accounts',
       fields,
@@ -232,7 +260,7 @@ export default class AdsPixel extends AbstractCrudObject {
     );
   }
 
-  getSharedAgencies (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getShareDAgencies (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       Business,
       fields,
@@ -249,16 +277,6 @@ export default class AdsPixel extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/stats'
-    );
-  }
-
-  createTelemetry (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AbstractObject> {
-    return this.createEdge(
-      '/telemetry',
-      fields,
-      params,
-      null,
-      pathOverride,
     );
   }
 

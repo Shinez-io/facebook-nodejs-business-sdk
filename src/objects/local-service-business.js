@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
+ /*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  * @flow
  */
+
 import {AbstractCrudObject} from './../abstract-crud-object';
 import Cursor from './../cursor';
 import CatalogItemChannelsToIntegrityStatus from './catalog-item-channels-to-integrity-status';
@@ -43,13 +45,16 @@ export default class LocalServiceBusiness extends AbstractCrudObject {
       id: 'id',
       image_fetch_status: 'image_fetch_status',
       images: 'images',
+      local_info: 'local_info',
       local_service_business_id: 'local_service_business_id',
+      main_local_info: 'main_local_info',
       phone: 'phone',
       price: 'price',
       price_range: 'price_range',
       retailer_category: 'retailer_category',
       sanitized_images: 'sanitized_images',
       size: 'size',
+      tags: 'tags',
       title: 'title',
       unit_price: 'unit_price',
       url: 'url',
@@ -63,6 +68,7 @@ export default class LocalServiceBusiness extends AbstractCrudObject {
       available_for_order: 'AVAILABLE_FOR_ORDER',
       discontinued: 'DISCONTINUED',
       in_stock: 'IN_STOCK',
+      mark_as_sold: 'MARK_AS_SOLD',
       out_of_stock: 'OUT_OF_STOCK',
       pending: 'PENDING',
       preorder: 'PREORDER',
