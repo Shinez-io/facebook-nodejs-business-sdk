@@ -17,7 +17,7 @@ git merge upstream/main
 ```
 
 > [!NOTE]
-> Do not remove dependencies `dts-gen`, `promise-retry`, `request`, `request-promise` (i have no idea why to we need 3 last, but ts defs generation will not run without them)
+> Do not remove dependencies `dts-gen`, `promise-retry`, `request`, `request-promise` (i have no idea why do we need 3 last, but ts defs generation will not run without them)
 
 3. Publish #1 
 ```shell
