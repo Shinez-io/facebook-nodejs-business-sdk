@@ -1,6 +1,6 @@
 {
   "name": "@shinez-io/facebook-nodejs-business-sdk",
-  "version": "20.0.0",
+  "version": "20.0.1",
   "description": "SDK for the Facebook Ads API in Javascript and Node.js",
   "author": "Olexiy Buyanskyy <olexiyb@gmail.com>",
   "maintainers": [
@@ -50,12 +50,14 @@
     "babel-preset-stage-2": "^6.24.1",
     "babelrc-rollup": "^3.0.0",
     "chai": "~3.5.0",
+    "dts-gen": "^0.6.1",
     "eslint": "^7.32.0",
     "eslint-plugin-flowtype": "^2.50.3",
     "flow-bin": "^0.138.0",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "gulp-filenames": "~4.0.0",
+    "gulp-flowtype": "^1.0.0",
     "gulp-load-plugins": "^1.6.0",
     "gulp-open": "^3.0.1",
     "gulp-rename": "^1.2.3",
