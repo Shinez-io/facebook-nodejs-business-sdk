@@ -122,8 +122,12 @@ export default class Http {
       delete options.data;
     }
 
-    return axios(options).catch((response: Object) => {
-      throw response;
+    return axios(options).catch(function (error) {
+      if(error.response && error.response.status === 500){
+        delete options.data
+        return axios(options).catch(function (error) {throw error})
+      }
+      throw error;
     });
   }
 }
