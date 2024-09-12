@@ -123,7 +123,7 @@ export default class Http {
     }
 
     return axios(options).catch(function (error) {
-      const isValidData = options.data && typeof options.data === 'object' && Object.keys(options.data).length > 0
+      const isValidData = options.data && typeof options.data === 'object' && Object.keys(options.data).length === 0
       if(error.response && error.response.status === 500 && isValidData) {
         delete options.data
         return axios(options).catch(function (error) {throw error})
