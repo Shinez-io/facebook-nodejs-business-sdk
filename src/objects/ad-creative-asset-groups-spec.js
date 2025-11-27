@@ -20,6 +20,7 @@ export default class AdCreativeAssetGroupsSpec extends AbstractCrudObject {
     return Object.freeze({
       groups: 'groups',
       origin: 'origin',
+      origins: 'origins',
     });
   }
 

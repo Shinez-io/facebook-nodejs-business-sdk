@@ -20,6 +20,7 @@ export default class IGRefreshAccessTokenForIGOnlyAPI extends AbstractCrudObject
     return Object.freeze({
       access_token: 'access_token',
       expires_in: 'expires_in',
+      permissions: 'permissions',
       token_type: 'token_type',
       id: 'id',
     });

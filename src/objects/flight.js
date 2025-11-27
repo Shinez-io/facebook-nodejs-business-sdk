@@ -10,8 +10,8 @@
 
 import {AbstractCrudObject} from './../abstract-crud-object';
 import Cursor from './../cursor';
-import DynamicARMetadata from './dynamic-ar-metadata';
 import CatalogItemChannelsToIntegrityStatus from './catalog-item-channels-to-integrity-status';
+import OverrideDetails from './override-details';
 import DynamicVideoMetadata from './dynamic-video-metadata';
 
 /**
@@ -25,6 +25,16 @@ export default class Flight extends AbstractCrudObject {
       applinks: 'applinks',
       category_specific_fields: 'category_specific_fields',
       currency: 'currency',
+      custom_label_0: 'custom_label_0',
+      custom_label_1: 'custom_label_1',
+      custom_label_2: 'custom_label_2',
+      custom_label_3: 'custom_label_3',
+      custom_label_4: 'custom_label_4',
+      custom_number_0: 'custom_number_0',
+      custom_number_1: 'custom_number_1',
+      custom_number_2: 'custom_number_2',
+      custom_number_3: 'custom_number_3',
+      custom_number_4: 'custom_number_4',
       description: 'description',
       destination_airport: 'destination_airport',
       destination_city: 'destination_city',
@@ -37,6 +47,11 @@ export default class Flight extends AbstractCrudObject {
       origin_airport: 'origin_airport',
       origin_city: 'origin_city',
       price: 'price',
+      product_priority_0: 'product_priority_0',
+      product_priority_1: 'product_priority_1',
+      product_priority_2: 'product_priority_2',
+      product_priority_3: 'product_priority_3',
+      product_priority_4: 'product_priority_4',
       sanitized_images: 'sanitized_images',
       tags: 'tags',
       unit_price: 'unit_price',
@@ -62,16 +77,6 @@ export default class Flight extends AbstractCrudObject {
     });
   }
 
-  getAugmentedRealitiesMetadata (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      DynamicARMetadata,
-      fields,
-      params,
-      fetchFirstPage,
-      '/augmented_realities_metadata'
-    );
-  }
-
   getChannelsToIntegrityStatus (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       CatalogItemChannelsToIntegrityStatus,
@@ -79,6 +84,16 @@ export default class Flight extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/channels_to_integrity_status'
+    );
+  }
+
+  getOverrideDetails (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      OverrideDetails,
+      fields,
+      params,
+      fetchFirstPage,
+      '/override_details'
     );
   }
 

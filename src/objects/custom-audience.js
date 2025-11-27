@@ -13,6 +13,7 @@ import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
 import AdAccount from './ad-account';
 import Ad from './ad';
+import CustomAudienceHealth from './custom-audience-health';
 import CustomAudienceSalts from './custom-audience-salts';
 import CustomAudienceSession from './custom-audience-session';
 import CustomAudiencesharedAccountInfo from './custom-audienceshared-account-info';
@@ -37,9 +38,11 @@ export default class CustomAudience extends AbstractCrudObject {
       description: 'description',
       excluded_custom_audiences: 'excluded_custom_audiences',
       external_event_source: 'external_event_source',
+      fields_violating_integrity_policy: 'fields_violating_integrity_policy',
       household_audience: 'household_audience',
       id: 'id',
       included_custom_audiences: 'included_custom_audiences',
+      is_eligible_for_sac_campaigns: 'is_eligible_for_sac_campaigns',
       is_household: 'is_household',
       is_snapshot: 'is_snapshot',
       is_value_based: 'is_value_based',
@@ -87,7 +90,6 @@ export default class CustomAudience extends AbstractCrudObject {
       generic: 'GENERIC',
       home_listing: 'HOME_LISTING',
       hotel: 'HOTEL',
-      job: 'JOB',
       local_service_business: 'LOCAL_SERVICE_BUSINESS',
       media_title: 'MEDIA_TITLE',
       offline_product: 'OFFLINE_PRODUCT',
@@ -103,6 +105,12 @@ export default class CustomAudience extends AbstractCrudObject {
       user_provided_only: 'USER_PROVIDED_ONLY',
     });
   }
+  static get SubscriptionInfo (): Object {
+    return Object.freeze({
+      messenger: 'MESSENGER',
+      whatsapp: 'WHATSAPP',
+    });
+  }
   static get Subtype (): Object {
     return Object.freeze({
       app: 'APP',
@@ -116,14 +124,20 @@ export default class CustomAudience extends AbstractCrudObject {
       lookalike: 'LOOKALIKE',
       managed: 'MANAGED',
       measurement: 'MEASUREMENT',
+      messenger_subscriber_list: 'MESSENGER_SUBSCRIBER_LIST',
       offline_conversion: 'OFFLINE_CONVERSION',
       partner: 'PARTNER',
       primary: 'PRIMARY',
       regulated_categories_audience: 'REGULATED_CATEGORIES_AUDIENCE',
       study_rule_audience: 'STUDY_RULE_AUDIENCE',
-      subscriber_segment: 'SUBSCRIBER_SEGMENT',
       video: 'VIDEO',
       website: 'WEBSITE',
+    });
+  }
+  static get UseForProducts (): Object {
+    return Object.freeze({
+      ads: 'ADS',
+      marketing_messages: 'MARKETING_MESSAGES',
     });
   }
   static get ActionSource (): Object {
@@ -170,6 +184,16 @@ export default class CustomAudience extends AbstractCrudObject {
     );
   }
 
+  getHealth (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      CustomAudienceHealth,
+      fields,
+      params,
+      fetchFirstPage,
+      '/health'
+    );
+  }
+
   getSalts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       CustomAudienceSalts,
@@ -200,7 +224,7 @@ export default class CustomAudience extends AbstractCrudObject {
     );
   }
 
-  getShareDAccountInfo (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getSharedAccountInfo (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       CustomAudiencesharedAccountInfo,
       fields,

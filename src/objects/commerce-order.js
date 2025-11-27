@@ -31,6 +31,7 @@ export default class CommerceOrder extends AbstractCrudObject {
       last_updated: 'last_updated',
       merchant_order_id: 'merchant_order_id',
       order_status: 'order_status',
+      pre_order_details: 'pre_order_details',
       selected_shipping_option: 'selected_shipping_option',
       ship_by_date: 'ship_by_date',
       shipping_address: 'shipping_address',
@@ -91,7 +92,7 @@ export default class CommerceOrder extends AbstractCrudObject {
     );
   }
 
-  createCanCellATIOn (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
+  createCancellation (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
     return this.createEdge(
       '/cancellations',
       fields,
@@ -214,16 +215,6 @@ export default class CommerceOrder extends AbstractCrudObject {
   createUpdateShipment (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
     return this.createEdge(
       '/update_shipment',
-      fields,
-      params,
-      CommerceOrder,
-      pathOverride,
-    );
-  }
-
-  createUpdate (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceOrder> {
-    return this.createEdge(
-      '/updates',
       fields,
       params,
       CommerceOrder,

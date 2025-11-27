@@ -27,6 +27,7 @@ import Shop from './shop';
 export default class CommerceMerchantSettings extends AbstractCrudObject {
   static get Fields (): Object {
     return Object.freeze({
+      checkout_config: 'checkout_config',
       checkout_message: 'checkout_message',
       contact_email: 'contact_email',
       cta: 'cta',
@@ -34,12 +35,14 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
       facebook_channel: 'facebook_channel',
       id: 'id',
       instagram_channel: 'instagram_channel',
+      korea_ftc_listing: 'korea_ftc_listing',
       merchant_page: 'merchant_page',
       merchant_status: 'merchant_status',
-      onsite_commerce_merchant: 'onsite_commerce_merchant',
+      offsite_iab_checkout_enabled_countries: 'offsite_iab_checkout_enabled_countries',
       payment_provider: 'payment_provider',
-      review_rejection_messages: 'review_rejection_messages',
-      review_rejection_reasons: 'review_rejection_reasons',
+      privacy_policy_localized: 'privacy_policy_localized',
+      return_policy_localized: 'return_policy_localized',
+      shops_ads_setup: 'shops_ads_setup',
       terms: 'terms',
     });
   }
@@ -85,23 +88,13 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
     );
   }
 
-  getOrderMAnAgeMEntApps (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getOrderManagementApps (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       Application,
       fields,
       params,
       fetchFirstPage,
       '/order_management_apps'
-    );
-  }
-
-  createOrderMAnAgeMEntApp (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<CommerceMerchantSettings> {
-    return this.createEdge(
-      '/order_management_apps',
-      fields,
-      params,
-      CommerceMerchantSettings,
-      pathOverride,
     );
   }
 
@@ -132,16 +125,6 @@ export default class CommerceMerchantSettings extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/setup_status'
-    );
-  }
-
-  getShippingProfiles (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      AbstractObject,
-      fields,
-      params,
-      fetchFirstPage,
-      '/shipping_profiles'
     );
   }
 

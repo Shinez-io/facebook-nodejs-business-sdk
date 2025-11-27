@@ -72,6 +72,7 @@ export default class Application extends AbstractCrudObject {
       deauth_callback_url: 'deauth_callback_url',
       default_share_mode: 'default_share_mode',
       description: 'description',
+      enigma_config: 'enigma_config',
       financial_id: 'financial_id',
       gdpv4_chrome_custom_tabs_enabled: 'gdpv4_chrome_custom_tabs_enabled',
       gdpv4_enabled: 'gdpv4_enabled',
@@ -192,19 +193,6 @@ export default class Application extends AbstractCrudObject {
     return Object.freeze({
       codeless: 'CODELESS',
       eymt: 'EYMT',
-    });
-  }
-  static get LoggingSource (): Object {
-    return Object.freeze({
-      detection: 'DETECTION',
-      messenger_bot: 'MESSENGER_BOT',
-    });
-  }
-  static get LoggingTarget (): Object {
-    return Object.freeze({
-      app: 'APP',
-      app_and_page: 'APP_AND_PAGE',
-      page: 'PAGE',
     });
   }
   static get OwnerPermissions (): Object {
@@ -523,6 +511,16 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
+  getConnectedClientBusinesses (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      Business,
+      fields,
+      params,
+      fetchFirstPage,
+      '/connected_client_businesses'
+    );
+  }
+
   getDaChecks (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       DACheck,
@@ -643,26 +641,6 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createPageActivity (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
-    return this.createEdge(
-      '/page_activities',
-      fields,
-      params,
-      Application,
-      pathOverride,
-    );
-  }
-
-  createPaymentCurrency (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
-    return this.createEdge(
-      '/payment_currencies',
-      fields,
-      params,
-      Application,
-      pathOverride,
-    );
-  }
-
   getPermissions (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AbstractObject,
@@ -713,6 +691,26 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
+  getSgwDatasetStatus (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AbstractObject,
+      fields,
+      params,
+      fetchFirstPage,
+      '/sgw_dataset_status'
+    );
+  }
+
+  getSgwInstallDeferralLink (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AbstractObject,
+      fields,
+      params,
+      fetchFirstPage,
+      '/sgw_install_deferral_link'
+    );
+  }
+
   getSubscribedDomains (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AbstractObject,
@@ -720,16 +718,6 @@ export default class Application extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/subscribed_domains'
-    );
-  }
-
-  createSubscribedDomain (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
-    return this.createEdge(
-      '/subscribed_domains',
-      fields,
-      params,
-      Application,
-      pathOverride,
     );
   }
 
@@ -743,20 +731,20 @@ export default class Application extends AbstractCrudObject {
     );
   }
 
-  createSubscribedDomainsPhishing (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<Application> {
-    return this.createEdge(
-      '/subscribed_domains_phishing',
-      fields,
-      params,
-      Application,
-      pathOverride,
-    );
-  }
-
   deleteSubscriptions (params: Object = {}): Promise<*> {
     return super.deleteEdge(
       '/subscriptions',
       params
+    );
+  }
+
+  getSubscriptions (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      AbstractObject,
+      fields,
+      params,
+      fetchFirstPage,
+      '/subscriptions'
     );
   }
 

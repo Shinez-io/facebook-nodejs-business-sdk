@@ -11,9 +11,9 @@
 import {AbstractCrudObject} from './../abstract-crud-object';
 import AbstractObject from './../abstract-object';
 import Cursor from './../cursor';
-import DynamicARMetadata from './dynamic-ar-metadata';
 import CatalogItemChannelsToIntegrityStatus from './catalog-item-channels-to-integrity-status';
 import HotelRoom from './hotel-room';
+import OverrideDetails from './override-details';
 import DynamicVideoMetadata from './dynamic-video-metadata';
 
 /**
@@ -30,6 +30,16 @@ export default class Hotel extends AbstractCrudObject {
       category: 'category',
       category_specific_fields: 'category_specific_fields',
       currency: 'currency',
+      custom_label_0: 'custom_label_0',
+      custom_label_1: 'custom_label_1',
+      custom_label_2: 'custom_label_2',
+      custom_label_3: 'custom_label_3',
+      custom_label_4: 'custom_label_4',
+      custom_number_0: 'custom_number_0',
+      custom_number_1: 'custom_number_1',
+      custom_number_2: 'custom_number_2',
+      custom_number_3: 'custom_number_3',
+      custom_number_4: 'custom_number_4',
       description: 'description',
       guest_ratings: 'guest_ratings',
       hotel_id: 'hotel_id',
@@ -41,6 +51,11 @@ export default class Hotel extends AbstractCrudObject {
       margin_level: 'margin_level',
       name: 'name',
       phone: 'phone',
+      product_priority_0: 'product_priority_0',
+      product_priority_1: 'product_priority_1',
+      product_priority_2: 'product_priority_2',
+      product_priority_3: 'product_priority_3',
+      product_priority_4: 'product_priority_4',
       sale_price: 'sale_price',
       sanitized_images: 'sanitized_images',
       star_rating: 'star_rating',
@@ -68,16 +83,6 @@ export default class Hotel extends AbstractCrudObject {
     });
   }
 
-  getAugmentedRealitiesMetadata (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
-    return this.getEdge(
-      DynamicARMetadata,
-      fields,
-      params,
-      fetchFirstPage,
-      '/augmented_realities_metadata'
-    );
-  }
-
   getChannelsToIntegrityStatus (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       CatalogItemChannelsToIntegrityStatus,
@@ -95,6 +100,16 @@ export default class Hotel extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/hotel_rooms'
+    );
+  }
+
+  getOverrideDetails (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      OverrideDetails,
+      fields,
+      params,
+      fetchFirstPage,
+      '/override_details'
     );
   }
 

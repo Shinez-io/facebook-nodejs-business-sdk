@@ -21,18 +21,45 @@ export default class AdsValueAdjustmentRuleCollection extends AbstractCrudObject
   static get Fields (): Object {
     return Object.freeze({
       id: 'id',
+      is_default_setting: 'is_default_setting',
+      last_attach_time: 'last_attach_time',
       name: 'name',
+      product_type: 'product_type',
+      status: 'status',
     });
   }
 
+  static get ProductType (): Object {
+    return Object.freeze({
+      audience: 'AUDIENCE',
+      leadgen_ads: 'LEADGEN_ADS',
+      omni_channel: 'OMNI_CHANNEL',
+    });
+  }
+  static get Status (): Object {
+    return Object.freeze({
+      active: 'ACTIVE',
+      deleted: 'DELETED',
+    });
+  }
 
-  getPersonas (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  createDeleteRuleSet (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<AdsValueAdjustmentRuleCollection> {
+    return this.createEdge(
+      '/delete_rule_set',
+      fields,
+      params,
+      AdsValueAdjustmentRuleCollection,
+      pathOverride,
+    );
+  }
+
+  getRules (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       AbstractObject,
       fields,
       params,
       fetchFirstPage,
-      '/personas'
+      '/rules'
     );
   }
 
@@ -41,6 +68,14 @@ export default class AdsValueAdjustmentRuleCollection extends AbstractCrudObject
     // $FlowFixMe : Support Generic Types
     return this.read(
       fields,
+      params
+    );
+  }
+
+  // $FlowFixMe : Support Generic Types
+  update (fields: Array<string>, params: Object = {}): AdsValueAdjustmentRuleCollection {
+    // $FlowFixMe : Support Generic Types
+    return super.update(
       params
     );
   }

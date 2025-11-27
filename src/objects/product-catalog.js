@@ -17,6 +17,8 @@ import AutomotiveModel from './automotive-model';
 import StoreCatalogSettings from './store-catalog-settings';
 import ProductCatalogCategory from './product-catalog-category';
 import CheckBatchRequestStatus from './check-batch-request-status';
+import ProductCatalogCheckMarketplacePartnerDealsStatus from './product-catalog-check-marketplace-partner-deals-status';
+import ProductCatalogCheckMarketplacePartnerSellersStatus from './product-catalog-check-marketplace-partner-sellers-status';
 import CPASLsbImageBank from './cpas-lsb-image-bank';
 import CollaborativeAdsShareSettings from './collaborative-ads-share-settings';
 import CreatorAssetCreative from './creator-asset-creative';
@@ -37,6 +39,7 @@ import ProductCatalogProductSetsBatch from './product-catalog-product-sets-batch
 import ProductItem from './product-item';
 import VehicleOffer from './vehicle-offer';
 import Vehicle from './vehicle';
+import CatalogContentVersionConfig from './catalog-content-version-config';
 
 /**
  * ProductCatalog
@@ -83,12 +86,17 @@ export default class ProductCatalog extends AbstractCrudObject {
       generic: 'generic',
       home_listings: 'home_listings',
       hotels: 'hotels',
-      jobs: 'jobs',
       local_service_businesses: 'local_service_businesses',
       offer_items: 'offer_items',
       offline_commerce: 'offline_commerce',
       transactable_items: 'transactable_items',
       vehicles: 'vehicles',
+    });
+  }
+  static get EnabledCollabTerms (): Object {
+    return Object.freeze({
+      enforce_create_new_ad_account: 'ENFORCE_CREATE_NEW_AD_ACCOUNT',
+      enforce_share_ad_performance_access: 'ENFORCE_SHARE_AD_PERFORMANCE_ACCESS',
     });
   }
   static get PermittedRoles (): Object {
@@ -146,6 +154,14 @@ export default class ProductCatalog extends AbstractCrudObject {
       tvs_and_monitors: 'TVS_AND_MONITORS',
       video_game_consoles_and_video_games: 'VIDEO_GAME_CONSOLES_AND_VIDEO_GAMES',
       watches: 'WATCHES',
+    });
+  }
+  static get EventName (): Object {
+    return Object.freeze({
+      add_to_cart: 'ADD_TO_CART',
+      purchase: 'PURCHASE',
+      test: 'TEST',
+      view_item: 'VIEW_ITEM',
     });
   }
 
@@ -260,6 +276,26 @@ export default class ProductCatalog extends AbstractCrudObject {
       params,
       fetchFirstPage,
       '/check_batch_request_status'
+    );
+  }
+
+  getCheckMarketplacePartnerDealsStatus (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      ProductCatalogCheckMarketplacePartnerDealsStatus,
+      fields,
+      params,
+      fetchFirstPage,
+      '/check_marketplace_partner_deals_status'
+    );
+  }
+
+  getCheckMarketplacePartnerSellersStatus (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      ProductCatalogCheckMarketplacePartnerSellersStatus,
+      fields,
+      params,
+      fetchFirstPage,
+      '/check_marketplace_partner_sellers_status'
     );
   }
 
@@ -380,6 +416,16 @@ export default class ProductCatalog extends AbstractCrudObject {
     );
   }
 
+  createGeolocatedItemsBatch (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductCatalog> {
+    return this.createEdge(
+      '/geolocated_items_batch',
+      fields,
+      params,
+      ProductCatalog,
+      pathOverride,
+    );
+  }
+
   getHomeListings (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       HomeListing,
@@ -453,6 +499,36 @@ export default class ProductCatalog extends AbstractCrudObject {
   createLocalizedItemsBatch (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductCatalog> {
     return this.createEdge(
       '/localized_items_batch',
+      fields,
+      params,
+      ProductCatalog,
+      pathOverride,
+    );
+  }
+
+  createMarketPlacePartnerDealsDetail (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductCatalog> {
+    return this.createEdge(
+      '/marketplace_partner_deals_details',
+      fields,
+      params,
+      ProductCatalog,
+      pathOverride,
+    );
+  }
+
+  createMarketPlacePartnerSellersDetail (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductCatalog> {
+    return this.createEdge(
+      '/marketplace_partner_sellers_details',
+      fields,
+      params,
+      ProductCatalog,
+      pathOverride,
+    );
+  }
+
+  createMarketPlacePartnerSignal (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductCatalog> {
+    return this.createEdge(
+      '/marketplace_partner_signals',
       fields,
       params,
       ProductCatalog,
@@ -570,6 +646,16 @@ export default class ProductCatalog extends AbstractCrudObject {
     );
   }
 
+  createUpdateGeneratedImageConfig (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<ProductCatalog> {
+    return this.createEdge(
+      '/update_generated_image_config',
+      fields,
+      params,
+      ProductCatalog,
+      pathOverride,
+    );
+  }
+
   getVehicleOffers (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
       VehicleOffer,
@@ -597,6 +683,16 @@ export default class ProductCatalog extends AbstractCrudObject {
       params,
       Vehicle,
       pathOverride,
+    );
+  }
+
+  getVersionConfigs (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+    return this.getEdge(
+      CatalogContentVersionConfig,
+      fields,
+      params,
+      fetchFirstPage,
+      '/version_configs'
     );
   }
 

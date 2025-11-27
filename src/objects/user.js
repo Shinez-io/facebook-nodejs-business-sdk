@@ -20,7 +20,7 @@ import AppRequest from './app-request';
 import Application from './application';
 import BusinessAssetGroup from './business-asset-group';
 import ProductCatalog from './product-catalog';
-import Avatar from './avatar';
+import WhatsAppBusinessAccount from './whats-app-business-account';
 import BusinessUser from './business-user';
 import Business from './business';
 import UnifiedThread from './unified-thread';
@@ -49,8 +49,8 @@ export default class User extends AbstractCrudObject {
     return Object.freeze({
       about: 'about',
       age_range: 'age_range',
-      avatar_2d_profile_picture: 'avatar_2d_profile_picture',
       birthday: 'birthday',
+      client_business_id: 'client_business_id',
       community: 'community',
       cover: 'cover',
       currency: 'currency',
@@ -62,7 +62,6 @@ export default class User extends AbstractCrudObject {
       gender: 'gender',
       hometown: 'hometown',
       id: 'id',
-      id_for_avatars: 'id_for_avatars',
       inspirational_people: 'inspirational_people',
       install_type: 'install_type',
       installed: 'installed',
@@ -84,6 +83,7 @@ export default class User extends AbstractCrudObject {
       profile_pic: 'profile_pic',
       quotes: 'quotes',
       relationship_status: 'relationship_status',
+      religion: 'religion',
       shared_login_upgrade_required_by: 'shared_login_upgrade_required_by',
       short_name: 'short_name',
       significant_other: 'significant_other',
@@ -282,13 +282,13 @@ export default class User extends AbstractCrudObject {
     );
   }
 
-  getAvatars (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
+  getAssignedWhatsAppBusinessAccounts (fields: Array<string>, params: Object = {}, fetchFirstPage: boolean = true): Cursor | Promise<*> {
     return this.getEdge(
-      Avatar,
+      WhatsAppBusinessAccount,
       fields,
       params,
       fetchFirstPage,
-      '/avatars'
+      '/assigned_whatsapp_business_accounts'
     );
   }
 
@@ -482,6 +482,16 @@ export default class User extends AbstractCrudObject {
   createMessengerDesktopPerformanceTrace (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<User> {
     return this.createEdge(
       '/messenger_desktop_performance_traces',
+      fields,
+      params,
+      User,
+      pathOverride,
+    );
+  }
+
+  createMessengerKidsAccountsUnreadBadge (fields: Array<string>, params: Object = {}, pathOverride?: ?string = null): Promise<User> {
+    return this.createEdge(
+      '/messenger_kids_accounts_unread_badge',
       fields,
       params,
       User,
